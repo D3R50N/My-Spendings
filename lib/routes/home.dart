@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
 import 'package:flutter_application_1/utils/functions.dart';
@@ -19,6 +22,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   CarouselController carouselController = CarouselController();
   bool showCarouselControls = false;
+
+  List all = List.generate(1, (index) => index);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,20 +61,20 @@ class _HomeState extends State<Home> {
                   CarouselSlider(
                     carouselController: carouselController,
                     options: CarouselOptions(
-                      autoPlay: true,
+                      autoPlay: all.length > 1,
                       height: height(context),
                       viewportFraction: 1,
                     ),
-                    items: List.generate(
-                      100,
-                      (index) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return SpendingsCard();
-                          },
-                        );
-                      },
-                    ),
+                    items: all.map((index) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          var model = SpendingsModel(
+                              Random(index).nextInt(99999999).toDouble());
+                          model.add(49950);
+                          return SpendingsCard(model);
+                        },
+                      );
+                    }).toList(),
                   ),
                   if (showCarouselControls)
                     Positioned(

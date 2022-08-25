@@ -2,18 +2,25 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
+import 'package:flutter_application_1/utils/functions.dart';
+import 'package:flutter_application_1/utils/globals.dart';
 import 'package:flutter_application_1/utils/styles.dart';
 import 'package:gap/gap.dart';
 
 class SpendingsCard extends StatefulWidget {
-  const SpendingsCard({Key? key}) : super(key: key);
+  final SpendingsModel model;
+  const SpendingsCard(this.model, {Key? key}) : super(key: key);
 
   @override
   State<SpendingsCard> createState() => SpendingsCardState();
 }
 
 class SpendingsCardState extends State<SpendingsCard> {
+  IconData icondata = showSolde
+      ? Icons.keyboard_arrow_up_rounded
+      : Icons.keyboard_arrow_down_rounded;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -49,10 +56,17 @@ class SpendingsCardState extends State<SpendingsCard> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AutoSizeText(
-                          "Dépenses jjjjjjjjjjjjjjjjjjjjjjsdkjsdksdjsdksjdksdjsdskdjsdsdjskkqjsdsjqndsjndjsndjnsjdqnjsndj sjqdkjsdnsqdjnsjdnjsqndjs djsqndjsqndjnsdjnjsqd jsqndjsndjqsqnjdnsjdsq",
-                          style: boldwhite(),
-                          maxLines: 2,
+                        Expanded(
+                          child: Opacity(
+                            opacity: .8,
+                            child: AutoSizeText(
+                              widget.model.title,
+                              style: boldwhite(underlined: true),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -62,13 +76,31 @@ class SpendingsCardState extends State<SpendingsCard> {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              'Solde total',
-                              style: boldwhite(),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  icondata = showSolde
+                                      ? Icons.keyboard_arrow_up_rounded
+                                      : Icons.keyboard_arrow_down_rounded;
+                                  showSolde = !showSolde;
+                                });
+                              },
+                              child: Text(
+                                'Solde total',
+                                style: boldwhite(),
+                              ),
                             ),
                             whiteIcon(
-                              Icons.keyboard_arrow_down_rounded,
-                              onPressed: () {},
+                              icondata,
+                              onPressed: () {
+                                setState(() {
+                                  showSolde = !showSolde;
+                                  icondata = icondata ==
+                                          Icons.keyboard_arrow_down_rounded
+                                      ? Icons.keyboard_arrow_up_rounded
+                                      : Icons.keyboard_arrow_down_rounded;
+                                });
+                              },
                               size: 20,
                             ),
                           ],
@@ -79,27 +111,36 @@ class SpendingsCardState extends State<SpendingsCard> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "15 775 FCFA",
-                          style: boldwhite(size: 20),
-                        ),
-                      ],
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      height: showSolde ? 30 : 0,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.model.strSolde,
+                            style: boldwhite(size: 20),
+                          ),
+                        ],
+                      ),
                     ),
-                    Gap(20),
+                    Gap(showSolde ? 20 : 5),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         inOrOut(
                           "Entrées",
+                          context,
+                          amount: widget.model.strIncome,
+                          align: CrossAxisAlignment.start,
                         ),
                         inOrOut(
                           "Dépenses",
+                          context,
                           icon: Icons.arrow_upward_rounded,
+                          amount: widget.model.strExpense,
                         )
                       ],
                     ),
@@ -114,7 +155,7 @@ class SpendingsCardState extends State<SpendingsCard> {
   }
 }
 
-Widget inOrOut(title,
+Widget inOrOut(title, context,
     {icon = Icons.arrow_downward_rounded,
     amount = "0 FCFA",
     align = CrossAxisAlignment.end}) {
@@ -138,12 +179,18 @@ Widget inOrOut(title,
             style: TextStyle(
               color: Colors.white,
             ),
+            textAlign: TextAlign.left,
           )
         ],
       ),
-      Text(
-        amount,
-        style: boldwhite(size: 20),
+      SizedBox(
+        width: width(context) * .35,
+        child: Text(
+          amount,
+          style: boldwhite(size: 20),
+          overflow: TextOverflow.clip,
+          maxLines: 1,
+        ),
       )
     ],
   );

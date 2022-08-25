@@ -2,13 +2,22 @@ enum AmountType { income, expense }
 
 class SpendingsModel {
   List<double> incomesList = [], expensesList = [];
-  String devise = "FCFA", title = "Dépenses";
+  final String devise, title;
+  final double capital;
+
+  SpendingsModel(
+    this.capital, {
+    this.devise = "FCFA",
+    this.title = "Dépenses",
+  }) {
+    add(capital, type: AmountType.income);
+  }
 
   void add(double amount, {type = AmountType.expense}) {
     if (type == AmountType.income) {
-      expensesList.add(amount);
-    } else {
       incomesList.add(amount);
+    } else {
+      expensesList.add(amount);
     }
   }
 
@@ -30,10 +39,38 @@ class SpendingsModel {
   }
 
   double get income {
-    return 0;
+    double sum = 0;
+    for (var income in incomesList) {
+      sum += income;
+    }
+    return sum;
   }
 
   double get expense {
-    return 0;
+    double sum = 0;
+    for (var expense in expensesList) {
+      sum += expense;
+    }
+    return sum;
+  }
+
+  String get strIncome => str(income);
+  String get strExpense => str(expense);
+  String get strSolde => str(solde);
+  
+
+  String str(double amount) {
+    String ret = "";
+    int counter = 0;
+    var splitted = amount.toString().split("").reversed;
+    for (var i = 0; i < splitted.length; i++) {
+      ret += splitted.elementAt(i);
+      counter++;
+      if (counter > 2 && i != splitted.length - 1) {
+        ret += " ";
+        counter = 0;
+      }
+    }
+    return ret.split("").reversed.join() + " " + devise;
   }
 }
