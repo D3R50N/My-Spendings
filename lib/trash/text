@@ -1,0 +1,33 @@
+ if (showCarouselControls)
+                    Positioned(
+                      top: 120,
+                      left: 5,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        radius: 16,
+                        child: whiteIcon(
+                          Icons.arrow_back_ios,
+                          size: 14,
+                          onPressed: () {
+                            carouselController.previousPage();
+                          },
+                        ),
+                      ),
+                    ),
+                  if (showCarouselControls)
+                    Positioned(
+                      top: 120,
+                      right: 5,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        radius: 16,
+                        child: whiteIcon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          onPressed: () {
+                            carouselController.nextPage();
+                          },
+                        ),
+                      ),
+                    ),
+                 

@@ -8,6 +8,7 @@ import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
 import 'package:flutter_application_1/utils/functions.dart';
+import 'package:flutter_application_1/utils/globals.dart';
 import 'package:flutter_application_1/utils/styles.dart';
 import 'package:flutter_application_1/widgets/spendingscard.dart';
 import 'package:gap/gap.dart';
@@ -24,12 +25,22 @@ class _HomeState extends State<Home> {
   bool showCarouselControls = false;
 
   List all = List.generate(1, (index) => index);
+
+  @override
+  void initState() {
+    showSolde.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          backgroundColor: Color.fromARGB(255, 243, 255, 253),
           appBar: AppBar(
             toolbarHeight: kToolbarHeight + 20,
             title: Column(
@@ -53,17 +64,76 @@ class _HomeState extends State<Home> {
             backgroundColor: mainColor,
             actions: [whiteIcon(Icons.settings_outlined, onPressed: () {})],
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton.extended(
+                onPressed: () {},
+                icon: const Icon(Icons.add_rounded),
+                label: const Text('Nouvelle planif'),
+                foregroundColor: Colors.white,
+                backgroundColor: mainColor,
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide.none,
+                ),
+              ),
+              Gap(10),
+              Builder(
+                builder: (context) {
+                  if (width(context) > 308) {
+                    return FloatingActionButton.extended(
+                      onPressed: () {},
+                      icon: const Icon(Icons.build_rounded),
+                      label: Text('Outils'),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: mainColor,
+                          width: 2,
+                        ),
+                      ),
+                      foregroundColor: mainColor,
+                      elevation: 4,
+                    );
+                  }
+
+                  return FloatingActionButton(
+                    onPressed: () {},
+                    child: const Icon(Icons.build_rounded),
+                    tooltip: 'Outils',
+                    backgroundColor: Colors.white,
+                    foregroundColor: mainColor,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: mainColor,
+                        width: 2,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
           body: Stack(
             children: [
               Positioned(top: 60, child: customHeader(context)),
-              Stack(
+              Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CarouselSlider(
                     carouselController: carouselController,
                     options: CarouselOptions(
                       autoPlay: all.length > 1,
-                      height: height(context),
                       viewportFraction: 1,
+                      aspectRatio: showSolde.value ? 1.4 : 1.6,
+                      // height: 200,
                     ),
                     items: all.map((index) {
                       return Builder(
@@ -76,38 +146,37 @@ class _HomeState extends State<Home> {
                       );
                     }).toList(),
                   ),
-                  if (showCarouselControls)
-                    Positioned(
-                      top: 120,
-                      left: 5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        radius: 16,
-                        child: whiteIcon(
-                          Icons.arrow_back_ios,
-                          size: 14,
-                          onPressed: () {
-                            carouselController.previousPage();
-                          },
-                        ),
-                      ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Historique des transactions",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                "Voir tout",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: mainColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  if (showCarouselControls)
-                    Positioned(
-                      top: 120,
-                      right: 5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black.withOpacity(.2),
-                        radius: 16,
-                        child: whiteIcon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          onPressed: () {
-                            carouselController.nextPage();
-                          },
-                        ),
-                      ),
-                    ),
+                  ),
                 ],
               ),
             ],

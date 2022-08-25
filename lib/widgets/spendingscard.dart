@@ -18,7 +18,7 @@ class SpendingsCard extends StatefulWidget {
 }
 
 class SpendingsCardState extends State<SpendingsCard> {
-  IconData icondata = showSolde
+  IconData icondata = showSolde.value
       ? Icons.keyboard_arrow_up_rounded
       : Icons.keyboard_arrow_down_rounded;
   @override
@@ -79,10 +79,10 @@ class SpendingsCardState extends State<SpendingsCard> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  icondata = showSolde
+                                  icondata = showSolde.value
                                       ? Icons.keyboard_arrow_up_rounded
                                       : Icons.keyboard_arrow_down_rounded;
-                                  showSolde = !showSolde;
+                                  showSolde.value = !showSolde.value;
                                 });
                               },
                               child: Text(
@@ -94,7 +94,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                               icondata,
                               onPressed: () {
                                 setState(() {
-                                  showSolde = !showSolde;
+                                  showSolde.value = !showSolde.value;
                                   icondata = icondata ==
                                           Icons.keyboard_arrow_down_rounded
                                       ? Icons.keyboard_arrow_up_rounded
@@ -113,7 +113,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                     ),
                     AnimatedContainer(
                       duration: Duration(milliseconds: 200),
-                      height: showSolde ? 30 : 0,
+                      height: showSolde.value ? 30 : 0,
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +125,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                         ],
                       ),
                     ),
-                    Gap(showSolde ? 20 : 5),
+                    Gap(showSolde.value ? 20 : 5),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,11 +185,15 @@ Widget inOrOut(title, context,
       ),
       SizedBox(
         width: width(context) * .35,
-        child: Text(
-          amount,
-          style: boldwhite(size: 20),
-          overflow: TextOverflow.clip,
-          maxLines: 1,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          child: Text(
+            amount,
+            style: boldwhite(size: 20),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
       )
     ],

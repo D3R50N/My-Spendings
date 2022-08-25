@@ -1,1 +1,3 @@
-bool showSolde = false;
+import 'package:flutter/widgets.dart';
+
+ValueNotifier<bool> showSolde = ValueNotifier(false);
