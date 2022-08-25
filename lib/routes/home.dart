@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
@@ -16,6 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  CarouselController carouselController = CarouselController();
+  bool showCarouselControls = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +51,60 @@ class _HomeState extends State<Home> {
           body: Stack(
             children: [
               Positioned(top: 60, child: customHeader(context)),
-              SpendingsCard(),
+              Stack(
+                children: [
+                  CarouselSlider(
+                    carouselController: carouselController,
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      height: height(context),
+                      viewportFraction: 1,
+                    ),
+                    items: List.generate(
+                      100,
+                      (index) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return SpendingsCard();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  if (showCarouselControls)
+                    Positioned(
+                      top: 120,
+                      left: 5,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        radius: 16,
+                        child: whiteIcon(
+                          Icons.arrow_back_ios,
+                          size: 14,
+                          onPressed: () {
+                            carouselController.previousPage();
+                          },
+                        ),
+                      ),
+                    ),
+                  if (showCarouselControls)
+                    Positioned(
+                      top: 120,
+                      right: 5,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black.withOpacity(.2),
+                        radius: 16,
+                        child: whiteIcon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          onPressed: () {
+                            carouselController.nextPage();
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),

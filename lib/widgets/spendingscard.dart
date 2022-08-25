@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/styles.dart';
@@ -9,10 +10,10 @@ class SpendingsCard extends StatefulWidget {
   const SpendingsCard({Key? key}) : super(key: key);
 
   @override
-  State<SpendingsCard> createState() => SspendingscardSCate();
+  State<SpendingsCard> createState() => SpendingsCardState();
 }
 
-class SspendingscardSCate extends State<SpendingsCard> {
+class SpendingsCardState extends State<SpendingsCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,6 +45,17 @@ class SspendingscardSCate extends State<SpendingsCard> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AutoSizeText(
+                          "Dépenses jjjjjjjjjjjjjjjjjjjjjjsdkjsdksdjsdksjdksdjsdskdjsdsdjskkqjsdsjqndsjndjsndjnsjdqnjsndj sjqdkjsdnsqdjnsjdnjsqndjs djsqndjsqndjnsdjnjsqd jsqndjsndjqsqnjdnsjdsq",
+                          style: boldwhite(),
+                          maxLines: 2,
+                        )
+                      ],
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
