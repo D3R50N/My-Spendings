@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
                 label: const Text('Nouvelle planif'),
                 foregroundColor: Colors.white,
                 backgroundColor: mainColor,
-                elevation: 4,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide.none,
@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       foregroundColor: mainColor,
-                      elevation: 4,
+                      elevation: 0,
                     );
                   }
 
@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
                     tooltip: 'Outils',
                     backgroundColor: Colors.white,
                     foregroundColor: mainColor,
-                    elevation: 4,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
