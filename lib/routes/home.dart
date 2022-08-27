@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
@@ -26,8 +27,35 @@ class _HomeState extends State<Home> {
 
   List all = List.generate(1, (index) => index);
 
+  late ScrollController _scrollViewController;
+  bool isScrollingDown = false, showFloating = true;
+
   @override
   void initState() {
+    _scrollViewController = ScrollController();
+    _scrollViewController.addListener(() {
+      if (_scrollViewController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (_scrollViewController.offset < 20) return;
+        if (!isScrollingDown) {
+          setState(() {
+            isScrollingDown = true;
+            showFloating = false;
+          });
+        }
+      }
+
+      if (_scrollViewController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        if (isScrollingDown) {
+          setState(() {
+            isScrollingDown = false;
+            showFloating = true;
+          });
+        }
+      }
+    });
+
     showSolde.addListener(() {
       setState(() {});
     });
@@ -66,61 +94,7 @@ class _HomeState extends State<Home> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FloatingActionButton.extended(
-                onPressed: () {},
-                icon: const Icon(Icons.add_rounded),
-                label: const Text('Nouvelle planif'),
-                foregroundColor: Colors.white,
-                backgroundColor: mainColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide.none,
-                ),
-              ),
-              Gap(10),
-              Builder(
-                builder: (context) {
-                  if (width(context) > 308) {
-                    return FloatingActionButton.extended(
-                      onPressed: () {},
-                      icon: const Icon(Icons.build_rounded),
-                      label: Text('Outils'),
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(
-                          color: mainColor,
-                          width: 2,
-                        ),
-                      ),
-                      foregroundColor: mainColor,
-                      elevation: 0,
-                    );
-                  }
-
-                  return FloatingActionButton(
-                    onPressed: () {},
-                    child: const Icon(Icons.build_rounded),
-                    tooltip: 'Outils',
-                    backgroundColor: Colors.white,
-                    foregroundColor: mainColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: mainColor,
-                        width: 2,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+          floatingActionButton: floatingButtons(context),
           body: Stack(
             children: [
               Positioned(top: 60, child: customHeader(context)),
@@ -132,7 +106,8 @@ class _HomeState extends State<Home> {
                     options: CarouselOptions(
                       autoPlay: all.length > 1,
                       viewportFraction: 1,
-                      aspectRatio: showSolde.value ? 1.4 : 1.6,
+                      // aspectRatio: showSolde.value ? 1.4 : 1.6,
+                      height: showSolde.value ? 250 : 200,
                       // height: 200,
                     ),
                     items: all.map((index) {
@@ -151,7 +126,8 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -160,6 +136,7 @@ class _HomeState extends State<Home> {
                                   "Historique des transactions",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 15,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -173,13 +150,214 @@ class _HomeState extends State<Home> {
                               ),
                             ],
                           ),
-                        )
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            controller: _scrollViewController,
+                            physics: BouncingScrollPhysics(),
+                            child: Column(
+                              children: [
+                                Gap(10),
+                                historycard(),
+                                historycard(),
+                                historycard(),
+                                historycard(),
+                                historycard(),
+                                historycard(),
+                                historycard(),
+                                Gap(100),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  AnimatedOpacity floatingButtons(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: showFloating ? 1 : 0,
+      duration: Duration(milliseconds: 300),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {},
+            icon: const Icon(Icons.add_rounded),
+            label: const Text('Nouvelle planif'),
+            foregroundColor: Colors.white,
+            backgroundColor: mainColor,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide.none,
+            ),
+          ),
+          Gap(10),
+          Builder(
+            builder: (context) {
+              if (width(context) > 308) {
+                return FloatingActionButton.extended(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Card(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 25, vertical: 10),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Outils",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black.withOpacity(.8),
+                                            fontSize: 18,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Divider(thickness: 1),
+                                      ],
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text("Convertisseur"),
+                                    subtitle: Text("Détails"),
+                                    onTap: () {},
+                                    leading: CircleAvatar(
+                                      backgroundColor: mainColor,
+                                      child: Icon(Icons.attach_money_rounded),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text("Calculatrice"),
+                                    subtitle: Text("Détails"),
+                                    onTap: () {},
+                                    leading: CircleAvatar(
+                                      backgroundColor: mainColor,
+                                      child: Icon(Icons.calculate_rounded),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text("Espace trading"),
+                                    subtitle: Text("Détails"),
+                                    onTap: () {},
+                                    leading: CircleAvatar(
+                                      backgroundColor: mainColor,
+                                      child: Icon(Icons.trending_up_rounded),
+                                    ),
+                                  ),
+                                  Gap(30),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.build_rounded),
+                  label: Text('Outils'),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: mainColor,
+                      width: 2,
+                    ),
+                  ),
+                  foregroundColor: mainColor,
+                  elevation: 0,
+                );
+              }
+
+              return FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.build_rounded),
+                tooltip: 'Outils',
+                backgroundColor: Colors.white,
+                foregroundColor: mainColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(
+                    color: mainColor,
+                    width: 2,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget historycard() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: mainColor.withOpacity(.3),
+              blurRadius: 3,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        child: Card(
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Achat de gari",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Aujourd'hui",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black.withOpacity(.4),
+                        fontSize: 13,
+                      ),
+                    ),
+                    Text(
+                      "+ 10000 FCFA",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: mainColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
