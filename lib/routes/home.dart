@@ -5,12 +5,14 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 import 'package:flutter_application_1/utils/styles.dart';
+import 'package:flutter_application_1/widgets/historycard.dart';
 import 'package:flutter_application_1/widgets/spendingscard.dart';
 import 'package:gap/gap.dart';
 
@@ -25,13 +27,24 @@ class _HomeState extends State<Home> {
   CarouselController carouselController = CarouselController();
   bool showCarouselControls = false;
 
-  List all = List.generate(1, (index) => index);
+  List<SpendingsModel> all = [];
 
   late ScrollController _scrollViewController;
   bool isScrollingDown = false, showFloating = true;
 
+  List<HistoryModel> histories = [];
   @override
   void initState() {
+    SpendingsModel.all().then((value) {
+      setState(() {
+        all = value;
+      });
+    });
+    HistoryModel.all().then((value) {
+      setState(() {
+        histories = value;
+      });
+    });
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -110,11 +123,9 @@ class _HomeState extends State<Home> {
                       height: showSolde.value ? 250 : 200,
                       // height: 200,
                     ),
-                    items: all.map((index) {
+                    items: all.map((model) {
                       return Builder(
                         builder: (BuildContext context) {
-                          var model = SpendingsModel(
-                              Random(index).nextInt(99999999).toDouble());
                           return SpendingsCard(model);
                         },
                       );
@@ -157,13 +168,9 @@ class _HomeState extends State<Home> {
                             child: Column(
                               children: [
                                 Gap(10),
-                                historycard(),
-                                historycard(),
-                                historycard(),
-                                historycard(),
-                                historycard(),
-                                historycard(),
-                                historycard(),
+                                ...histories
+                                    .map((e) => HistoryCard(e))
+                                    .toList(),
                                 Gap(100),
                               ],
                             ),
@@ -190,6 +197,7 @@ class _HomeState extends State<Home> {
         children: [
           FloatingActionButton.extended(
             heroTag: "new",
+            extendedPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             onPressed: () {},
             icon: const Icon(Icons.add_rounded),
             label: const Text('Nouvelle planif'),
@@ -207,6 +215,8 @@ class _HomeState extends State<Home> {
               if (width(context) > 308) {
                 return FloatingActionButton.extended(
                   heroTag: "tools",
+                  extendedPadding:
+                      EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
@@ -293,6 +303,7 @@ class _HomeState extends State<Home> {
                 onPressed: () {},
                 child: const Icon(Icons.build_rounded),
                 tooltip: 'Outils',
+                mini: true,
                 backgroundColor: Colors.white,
                 foregroundColor: mainColor,
                 elevation: 0,
@@ -307,60 +318,6 @@ class _HomeState extends State<Home> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget historycard() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: mainColor.withOpacity(.3),
-              blurRadius: 3,
-              offset: Offset(0, 0),
-            ),
-          ],
-        ),
-        child: Card(
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Achat de gari",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Aujourd'hui",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(.4),
-                        fontSize: 13,
-                      ),
-                    ),
-                    Text(
-                      "+ 10000 FCFA",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600, color: mainColor),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

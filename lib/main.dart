@@ -32,7 +32,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'startingpage',
+      initialRoute:
+          prefs.getBool(Settings.firstTime) ?? true ? 'startingpage' : '/',
       routes: {
         '/': (context) => Home(),
         'startingpage': (context) => StartingPage(),

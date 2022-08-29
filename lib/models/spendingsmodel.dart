@@ -3,7 +3,6 @@ import 'package:flutter_application_1/utils/globals.dart';
 import 'package:hive/hive.dart';
 part 'spendingsmodel.g.dart';
 
-
 @HiveType(typeId: 0)
 class SpendingsModel extends HiveObject {
   @HiveField(6)
@@ -26,11 +25,11 @@ class SpendingsModel extends HiveObject {
     this.title = "Dépenses",
   }) {
     add(HistoryModel("Capital", DateTime.now().toString(), capital),
-        type: true);
+        isIncoming: true);
   }
 
-  void add(HistoryModel amount, {type = false}) {
-    if (type) {
+  void add(HistoryModel amount, {isIncoming = false}) {
+    if (isIncoming) {
       incomesList.add(amount);
     } else {
       expensesList.add(amount);
@@ -48,6 +47,14 @@ class SpendingsModel extends HiveObject {
   void clearAll() {
     incomesList = [];
     expensesList = [];
+  }
+
+  static Future<List<SpendingsModel>> all() async {
+    List<SpendingsModel> list = [];
+    for (var element in spendingsBox.values) {
+      list.add(element);
+    }
+    return list;
   }
 
   @HiveField(3)
@@ -91,6 +98,4 @@ class SpendingsModel extends HiveObject {
     }
     return ret.split("").reversed.join() + " " + devise;
   }
-
-  
 }

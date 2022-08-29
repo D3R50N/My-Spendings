@@ -59,7 +59,9 @@ class _StartingPageState extends State<StartingPage> {
         child: atEnd
             ? TextButton(
                 onPressed: () {
-                  pushRoute(context, '/');
+                  prefs.setBool(Settings.firstTime, false).then((value) {
+                    pushRoute(context, '/');
+                  });
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: mainColor,
