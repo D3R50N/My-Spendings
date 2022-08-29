@@ -1,9 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/historymodel.dart';
+import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes/home.dart';
+import 'package:flutter_application_1/routes/startingpage.dart';
+import 'package:flutter_application_1/utils/globals.dart';
 
-void main() {
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(SpendingsModelAdapter());
+  Hive.registerAdapter(HistoryModelAdapter());
+  spendingsBox = await Hive.openBox<SpendingsModel>(Boxes.spendings);
+  prefs = await SharedPreferences.getInstance();
   runApp(const App());
 }
 
@@ -18,9 +32,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: 'startingpage',
       routes: {
         '/': (context) => Home(),
+        'startingpage': (context) => StartingPage(),
       },
     );
   }

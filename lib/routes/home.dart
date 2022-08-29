@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 243, 255, 253),
+          backgroundColor: bkgColor,
           appBar: AppBar(
             toolbarHeight: kToolbarHeight + 20,
             title: Column(
@@ -115,7 +115,6 @@ class _HomeState extends State<Home> {
                         builder: (BuildContext context) {
                           var model = SpendingsModel(
                               Random(index).nextInt(99999999).toDouble());
-                          model.add(49950);
                           return SpendingsCard(model);
                         },
                       );
@@ -190,6 +189,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton.extended(
+            heroTag: "new",
             onPressed: () {},
             icon: const Icon(Icons.add_rounded),
             label: const Text('Nouvelle planif'),
@@ -206,6 +206,7 @@ class _HomeState extends State<Home> {
             builder: (context) {
               if (width(context) > 308) {
                 return FloatingActionButton.extended(
+                  heroTag: "tools",
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,

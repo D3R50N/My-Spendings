@@ -7,3 +7,7 @@ double width(BuildContext context) {
 double height(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
+
+void pushRoute(BuildContext context, String name) {
+  Navigator.of(context).pushReplacementNamed(name);
+}
