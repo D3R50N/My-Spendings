@@ -114,70 +114,90 @@ class _HomeState extends State<Home> {
               Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CarouselSlider(
-                    carouselController: carouselController,
-                    options: CarouselOptions(
-                      autoPlay: all.length > 1,
-                      viewportFraction: 1,
-                      // aspectRatio: showSolde.value ? 1.4 : 1.6,
-                      height: showSolde.value ? 250 : 200,
-                      // height: 200,
+                  if (all.isNotEmpty)
+                    CarouselSlider(
+                      carouselController: carouselController,
+                      options: CarouselOptions(
+                        autoPlay: all.length > 1,
+                        viewportFraction: 1,
+                        // aspectRatio: showSolde.value ? 1.4 : 1.6,
+                        height: showSolde.value ? 250 : 200,
+                        // height: 200,
+                      ),
+                      items: all.map((model) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return SpendingsCard(model);
+                          },
+                        );
+                      }).toList(),
                     ),
-                    items: all.map((model) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return SpendingsCard(model);
-                        },
-                      );
-                    }).toList(),
-                  ),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: all.isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "Historique des transactions",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Voir tout",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: mainColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Expanded(
+                                child: SingleChildScrollView(
+                                  controller: _scrollViewController,
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    children: [
+                                      Gap(10),
+                                      ...histories
+                                          .map((e) => HistoryCard(e))
+                                          .toList(),
+                                      Gap(100),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
                                 child: Text(
-                                  "Historique des transactions",
+                                  "Aucune planification disponible",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(.6),
                                     fontSize: 15,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Text(
-                                "Voir tout",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: mainColor,
-                                ),
-                              ),
                             ],
                           ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            controller: _scrollViewController,
-                            physics: BouncingScrollPhysics(),
-                            child: Column(
-                              children: [
-                                Gap(10),
-                                ...histories
-                                    .map((e) => HistoryCard(e))
-                                    .toList(),
-                                Gap(100),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
