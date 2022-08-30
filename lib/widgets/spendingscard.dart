@@ -205,7 +205,7 @@ Widget whiteIcon(icon, {onPressed, size = 24}) {
     onPressed: onPressed,
     icon: Icon(icon),
     color: Colors.white,
-    iconSize: size,
+    iconSize: size.toDouble(),
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
   );

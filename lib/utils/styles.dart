@@ -6,7 +6,7 @@ TextStyle boldwhite({size = 14, underlined = false}) {
   return TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.bold,
-    fontSize: size,
+    fontSize: size.toDouble(),
     decoration: underlined ? TextDecoration.underline : TextDecoration.none,
   );
 }
