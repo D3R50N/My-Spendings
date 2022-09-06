@@ -11,3 +11,6 @@ double height(BuildContext context) {
 void pushRoute(BuildContext context, String name) {
   Navigator.of(context).pushReplacementNamed(name);
 }
+void push(BuildContext context, String name) {
+  Navigator.of(context).pushNamed(name);
+}

@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/routes/home.dart';
+import 'package:flutter_application_1/routes/newplan.dart';
 import 'package:flutter_application_1/routes/startingpage.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 
@@ -32,11 +34,13 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute:
-          prefs.getBool(Settings.firstTime) ?? true ? 'startingpage' : '/',
+      initialRoute: prefs.getBool(Settings.firstTime) ?? true
+          ? Routes.startingpage
+          : Routes.home,
       routes: {
-        '/': (context) => Home(),
-        'startingpage': (context) => StartingPage(),
+        Routes.home: (context) => Home(),
+        Routes.startingpage: (context) => StartingPage(),
+        Routes.newplanif: ((context) => NewPlanif())
       },
     );
   }

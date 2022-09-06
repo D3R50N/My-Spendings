@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
@@ -55,12 +56,12 @@ class _StartingPageState extends State<StartingPage> {
       bottomSheet: Container(
         padding: EdgeInsets.symmetric(horizontal: atEnd ? 0 : 10),
         color: bkgColor,
-        height: 40,
+        height: 60,
         child: atEnd
             ? TextButton(
                 onPressed: () {
                   prefs.setBool(Settings.firstTime, false).then((value) {
-                    pushRoute(context, '/');
+                    pushRoute(context, Routes.home);
                   });
                 },
                 style: TextButton.styleFrom(
@@ -75,6 +76,7 @@ class _StartingPageState extends State<StartingPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),

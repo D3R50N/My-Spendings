@@ -11,7 +11,9 @@ import 'package:gap/gap.dart';
 
 class SpendingsCard extends StatefulWidget {
   final SpendingsModel model;
-  const SpendingsCard(this.model, {Key? key}) : super(key: key);
+  final bool showTitle;
+  const SpendingsCard(this.model, {Key? key, this.showTitle = true})
+      : super(key: key);
 
   @override
   State<SpendingsCard> createState() => SpendingsCardState();
@@ -52,24 +54,25 @@ class SpendingsCardState extends State<SpendingsCard> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Opacity(
-                            opacity: .8,
-                            child: AutoSizeText(
-                              widget.model.title,
-                              style: boldwhite(underlined: true),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
+                    if (widget.showTitle)
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Opacity(
+                              opacity: .8,
+                              child: AutoSizeText(
+                                widget.model.title,
+                                style: boldwhite(underlined: true),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

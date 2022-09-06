@@ -9,6 +9,7 @@ ValueNotifier<bool> showSolde = ValueNotifier(false);
 
 late SharedPreferences prefs;
 late Box<SpendingsModel> spendingsBox;
+SpendingsModel newmodel = SpendingsModel(0);
 
 class Boxes {
   static String spendings = "spendings";

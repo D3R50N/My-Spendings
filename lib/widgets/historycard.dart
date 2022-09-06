@@ -36,7 +36,7 @@ class _HistoryCardState extends State<HistoryCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.model.title,
+                  widget.model.title + " (${widget.model.parent?.title}) ",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
@@ -54,11 +54,11 @@ class _HistoryCardState extends State<HistoryCard> {
                       ),
                     ),
                     Text(
-                      (widget.model.isIncoming ? "+" : "-") +
+                      (!widget.model.isIncoming ? "+" : "-") +
                           " ${widget.model.amount}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: widget.model.isIncoming
+                          color: !widget.model.isIncoming
                               ? mainColor
                               : Color.fromARGB(255, 220, 35, 22)),
                     ),

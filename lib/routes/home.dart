@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
 import 'package:flutter_application_1/utils/functions.dart';
@@ -33,8 +34,12 @@ class _HomeState extends State<Home> {
   bool isScrollingDown = false, showFloating = true;
 
   List<HistoryModel> histories = [];
+
+  late TextEditingController dialog_title, dialog_capital;
   @override
   void initState() {
+    dialog_title = TextEditingController();
+    dialog_capital = TextEditingController();
     SpendingsModel.all().then((value) {
       setState(() {
         all = value;
@@ -73,6 +78,12 @@ class _HomeState extends State<Home> {
       setState(() {});
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    showSolde.dispose();
+    super.dispose();
   }
 
   @override
@@ -218,7 +229,10 @@ class _HomeState extends State<Home> {
           FloatingActionButton.extended(
             heroTag: "new",
             extendedPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-            onPressed: () {},
+            onPressed: () {
+              // pushRoute(context, Routes.newplanif);
+              createDialog();
+            },
             icon: const Icon(Icons.add_rounded),
             label: const Text('Nouvelle planif'),
             foregroundColor: Colors.white,
@@ -339,6 +353,112 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> createDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Nouvelle planification',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: bkgColor,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: dialog_title,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: Colors.black.withOpacity(.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: mainColor,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    label: Text(
+                      'Titre : ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    floatingLabelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: mainColor,
+                    ),
+                  ),
+                ),
+                Gap(20),
+                TextField(
+                  controller: dialog_capital,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    filled: true,
+
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: Colors.black.withOpacity(.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: mainColor,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    // prefixText: "Titre : ",
+                    label: Text(
+                      'Capital : ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    floatingLabelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: mainColor,
+                    ),
+                    suffixText: "FCFA",
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: mainColor,
+                minimumSize: Size.fromHeight(40),
+                padding: EdgeInsets.all(18),
+              ),
+              child: Text(
+                'Créer',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                //NOTE Enlever le dialogue avant d'afficher la page
+                // Navigator.of(context).pop();
+                newmodel = SpendingsModel(double.parse(dialog_capital.text),
+                    title: dialog_title.text);
+
+                push(context, Routes.newplanif);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
