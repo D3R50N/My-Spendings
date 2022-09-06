@@ -24,12 +24,14 @@ class SpendingsModel extends HiveObject {
     this.devise = "FCFA",
     this.title = "Dépenses",
   }) {
-    add(HistoryModel("Capital", DateTime.now().toString(), capital),
-        isIncoming: true);
+    add(HistoryModel("Capital", DateTime.now().toString(), capital,
+        isIncoming: true));
   }
 
-  void add(HistoryModel amount, {isIncoming = false}) {
-    if (isIncoming) {
+  void add(
+    HistoryModel amount,
+  ) {
+    if (amount.isIncoming) {
       incomesList.add(amount);
     } else {
       expensesList.add(amount);
