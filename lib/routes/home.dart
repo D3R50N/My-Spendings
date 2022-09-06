@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_application_1/extensions/string_extensions.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     dialog_title = TextEditingController();
-    dialog_capital = TextEditingController();
+    dialog_capital = TextEditingController(text: "0");
     SpendingsModel.all().then((value) {
       setState(() {
         all = value;
@@ -82,7 +83,7 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    showSolde.dispose();
+    showSolde = ValueNotifier(false);
     super.dispose();
   }
 
@@ -138,7 +139,21 @@ class _HomeState extends State<Home> {
                       items: all.map((model) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return SpendingsCard(model);
+                            return SpendingsCard(
+                              model,
+                              onDelete: () {
+                                SpendingsModel.all().then((value) {
+                                  setState(() {
+                                    all = value;
+                                  });
+                                });
+                                HistoryModel.all().then((value) {
+                                  setState(() {
+                                    histories = value;
+                                  });
+                                });
+                              },
+                            );
                           },
                         );
                       }).toList(),
@@ -451,7 +466,9 @@ class _HomeState extends State<Home> {
                 //NOTE Enlever le dialogue avant d'afficher la page
                 // Navigator.of(context).pop();
                 newmodel = SpendingsModel(double.parse(dialog_capital.text),
-                    title: dialog_title.text);
+                    title: dialog_title.text.empty
+                        ? "Sans nom"
+                        : dialog_title.text);
 
                 push(context, Routes.newplanif);
               },

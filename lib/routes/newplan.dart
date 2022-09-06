@@ -45,7 +45,11 @@ class _NewPlanifState extends State<NewPlanif> {
         elevation: 0,
         // centerTitle: true,
         backgroundColor: mainColor,
-        title: Text(newmodel.title),
+        title: GestureDetector(
+            child: Text(newmodel.title),
+            onTap: () {
+              pushRoute(context, Routes.home);
+            }),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -55,7 +59,9 @@ class _NewPlanifState extends State<NewPlanif> {
                 //NOTE Enlever le dialogue avant d'afficher la page
                 // Navigator.of(context).pop();
                 spendingsBox.add(newmodel).then((value) {
-                  pushRoute(context, Routes.home);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, Routes.home);
                 });
               },
             ),
@@ -68,6 +74,8 @@ class _NewPlanifState extends State<NewPlanif> {
           SpendingsCard(
             newmodel,
             showTitle: false,
+            showEditBtn: false,
+            onDelete: () {},
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

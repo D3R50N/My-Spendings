@@ -3,6 +3,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
@@ -11,8 +12,13 @@ import 'package:gap/gap.dart';
 
 class SpendingsCard extends StatefulWidget {
   final SpendingsModel model;
-  final bool showTitle;
-  const SpendingsCard(this.model, {Key? key, this.showTitle = true})
+  final bool showTitle, showEditBtn;
+  final Function() onDelete;
+  const SpendingsCard(this.model,
+      {Key? key,
+      this.showTitle = true,
+      this.showEditBtn = true,
+      required this.onDelete})
       : super(key: key);
 
   @override
@@ -23,6 +29,8 @@ class SpendingsCardState extends State<SpendingsCard> {
   IconData icondata = showSolde.value
       ? Icons.keyboard_arrow_up_rounded
       : Icons.keyboard_arrow_down_rounded;
+
+  List<String> editChoice = ["Modifier", "Supprimer"];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -108,10 +116,59 @@ class SpendingsCardState extends State<SpendingsCard> {
                             ),
                           ],
                         ),
-                        whiteIcon(
-                          Icons.more_horiz,
-                          onPressed: () {},
-                        ),
+                        if (widget.showEditBtn)
+                          PopupMenuButton<String>(
+                            icon: Icon(
+                              Icons.more_horiz,
+                              color: Colors.white,
+                            ),
+                            onSelected: (e) {
+                              if (e == editChoice.first) {
+                                try {
+                                  newmodel =
+                                      spendingsBox.get(widget.model.key)!;
+                                  push(context, Routes.newplanif);
+                                } catch (excep) {
+                                  print(excep);
+                                  errordialog(
+                                    context,
+                                    text:
+                                        "Impossible de modifier cette planification",
+                                  );
+                                }
+                              } else {
+                                confirmdialog(
+                                  context,
+                                  text:
+                                      "Supprimer '${widget.model.title}' ainsi que ${widget.model.incomesList.length + widget.model.expensesList.length} transaction(s)?",
+                                  onOk: () {
+                                    spendingsBox
+                                        .delete(widget.model.key)
+                                        .then((value) {
+                                      widget.onDelete();
+                                      Navigator.pop(context);
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context) {
+                              return editChoice.map((String choice) {
+                                return PopupMenuItem<String>(
+                                  value: choice,
+                                  height: kMinInteractiveDimension - 10,
+                                  child: Text(
+                                    choice,
+                                    style: TextStyle(
+                                      color: mainColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                );
+                              }).toList();
+                            },
+                          ),
                       ],
                     ),
                     AnimatedContainer(
