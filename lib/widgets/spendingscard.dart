@@ -127,7 +127,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                                 try {
                                   newmodel =
                                       spendingsBox.get(widget.model.key)!;
-                                  push(context, Routes.newplanif);
+                                  push(context, Routes.editplanif);
                                 } catch (excep) {
                                   print(excep);
                                   errordialog(

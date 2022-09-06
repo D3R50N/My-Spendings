@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
+import 'package:flutter_application_1/routes/editplan.dart';
 import 'package:flutter_application_1/routes/home.dart';
 import 'package:flutter_application_1/routes/newplan.dart';
 import 'package:flutter_application_1/routes/startingpage.dart';
@@ -40,7 +41,8 @@ class App extends StatelessWidget {
       routes: {
         Routes.home: (context) => Home(),
         Routes.startingpage: (context) => StartingPage(),
-        Routes.newplanif: ((context) => NewPlanif())
+        Routes.newplanif: ((context) => NewPlanif()),
+        Routes.editplanif: ((context) => EditPlanif()),
       },
     );
   }
