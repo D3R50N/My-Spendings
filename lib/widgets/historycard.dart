@@ -173,7 +173,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 ],
                 onChanged: (e) {
                   setState(() {
-                    curr_type = e ?? "hd";
+                    curr_type = e ?? curr_type;
                   });
                 },
               ),

@@ -60,6 +60,21 @@ class SpendingsModel extends HiveObject {
     return list;
   }
 
+  List<HistoryModel> get filteredHistory {
+    List<HistoryModel> list = [];
+    for (var element in incomesList) {
+      list.add(element);
+    }
+    for (var element in expensesList) {
+      list.add(element);
+    }
+    list.sort((a, b) {
+      return AppDateUtils.fromStr(b.date)
+          .compareTo(AppDateUtils.fromStr(a.date));
+    });
+    return list;
+  }
+
   @HiveField(3)
   double get solde {
     return income - expense;

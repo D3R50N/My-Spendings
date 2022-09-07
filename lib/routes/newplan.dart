@@ -141,7 +141,7 @@ class _NewPlanifState extends State<NewPlanif> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                ...newmodel.incomesList.map((e) {
+                ...newmodel.filteredHistory.map((e) {
                   e.parent = newmodel;
                   return HistoryCard(
                     e,
@@ -151,16 +151,7 @@ class _NewPlanifState extends State<NewPlanif> {
                     },
                   );
                 }).toList(),
-                ...newmodel.expensesList.map((e) {
-                  e.parent = newmodel;
-                  return HistoryCard(
-                    e,
-                    showDate: true,
-                    fresh: () {
-                      setState(() {});
-                    },
-                  );
-                }).toList(),
+               
               ],
             ),
           )

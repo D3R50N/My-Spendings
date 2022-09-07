@@ -11,6 +11,7 @@ import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/custompaint.dart';
+import 'package:flutter_application_1/utils/date_utils.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 import 'package:flutter_application_1/utils/styles.dart';
@@ -48,13 +49,17 @@ class _HomeState extends State<Home> {
         }
       });
       HistoryModel.all().then((value) {
-        for (var item in value) {
-          print(item.title);
-        }
+        // for (var item in value) {
+        //   print(item.title);
+        // }
 
         if (mounted) {
           setState(() {
             histories = value;
+            histories.sort((a, b) {
+              return AppDateUtils.fromStr(b.date)
+                  .compareTo(AppDateUtils.fromStr(a.date));
+            });
           });
         }
       });

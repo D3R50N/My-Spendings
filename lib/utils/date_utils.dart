@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/extensions/num_extension.dart';
+import 'package:flutter_application_1/extensions/string_extensions.dart';
 
 class AppDateUtils {
   static List daysFr = [
@@ -39,4 +40,14 @@ class AppDateUtils {
 
     return ret;
   }
+
+  static DateTime fromStr(String date) {
+    var splitted = date.split(' ');
+    int day = splitted[1].toInt();
+    int month = monthFr.indexOf(splitted[2]) + 1;
+    int year = splitted[3].toInt();
+
+    return DateTime(year, month, day);
+  }
+
 }

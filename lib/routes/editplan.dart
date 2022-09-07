@@ -137,16 +137,7 @@ class _EditPlanifState extends State<EditPlanif> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                ...newmodel.incomesList
-                    .map((e) => HistoryCard(
-                          e,
-                          showDate: true,
-                          fresh: () {
-                            setState(() {});
-                          },
-                        ))
-                    .toList(),
-                ...newmodel.expensesList
+                ...newmodel.filteredHistory
                     .map((e) => HistoryCard(
                           e,
                           showDate: true,
