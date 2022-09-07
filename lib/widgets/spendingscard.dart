@@ -51,7 +51,7 @@ class SpendingsCardState extends State<SpendingsCard> {
             ),
             child: Card(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: cardColor,
+              color: ThemeCol.cardColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -72,7 +72,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                               onTap: () {
                                 newmodel = spendingsBox.get(widget.model.key)!;
                                 push(context, Routes.editplanif);
-                              },  
+                              },
                               child: Opacity(
                                 opacity: .8,
                                 child: AutoSizeText(
@@ -135,7 +135,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                                       spendingsBox.get(widget.model.key)!;
                                   push(context, Routes.editplanif);
                                 } catch (excep) {
-                                  print(excep);
+                                  // print(excep);
                                   errordialog(
                                     context,
                                     text:
@@ -152,7 +152,9 @@ class SpendingsCardState extends State<SpendingsCard> {
                                         .delete(widget.model.key)
                                         .then((value) {
                                       widget.onDelete();
-                                      Navigator.pop(context);
+                                      if (Settings.alwaysconfirm) {
+                                        Navigator.pop(context);
+                                      }
                                     });
                                   },
                                 );
@@ -167,7 +169,7 @@ class SpendingsCardState extends State<SpendingsCard> {
                                   child: Text(
                                     choice,
                                     style: TextStyle(
-                                      color: mainColor,
+                                      color: ThemeCol.mainColor,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

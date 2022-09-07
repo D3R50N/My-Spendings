@@ -18,6 +18,35 @@ class Boxes {
 
 class Settings {
   static String firstTime = "firstTime";
+
+  static bool get autosave => prefs.getBool("autosave") ?? false;
+  static bool get autoscroll => prefs.getBool("autoscroll") ?? false;
+  static bool get alwaysconfirm => prefs.getBool("alwaysconfirm") ?? true;
+  static bool get lock => prefs.getBool("lock") ?? false;
+  static String get username => prefs.getString("username") ?? "Inconnu";
+  static String get lockcode => prefs.getString("lockcode") ?? "";
+
+  static Future<void> setsave(bool b) async{
+    await prefs.setBool("autosave", b);
+  }
+
+  static Future<void> setscroll(bool b) async{
+    await prefs.setBool("autoscroll", b);
+  }
+
+  static Future<void> setconfirm(bool b) async{
+    await prefs.setBool("alwaysconfirm", b);
+  }
+  static Future<void> setlock(bool b) async {
+    await prefs.setBool("lock", b);
+  }
+
+  static Future<void> setname(String n) async{
+    await prefs.setString("username", n);
+  }
+   static Future<void> setlockcode(String n) async {
+    await prefs.setString("lockcode", n);
+  }
 }
 
 class NameUtil {

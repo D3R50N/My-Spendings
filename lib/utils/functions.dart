@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/colors.dart';
+import 'package:flutter_application_1/utils/globals.dart';
 
 double width(BuildContext context) {
   return MediaQuery.of(context).size.width;
@@ -29,7 +30,7 @@ void errordialog(context, {required String text}) {
           children: [
             Icon(
               Icons.error,
-              color: mainColor,
+              color: ThemeCol.mainColor,
               size: 30,
             ),
             Text(
@@ -49,6 +50,10 @@ void confirmdialog(
   required Function() onOk,
   IconData icon = Icons.info_rounded,
 }) {
+  if (!Settings.alwaysconfirm) {
+    onOk();
+    return;
+  }
   showDialog(
     context: context,
     builder: (context) {
@@ -58,7 +63,7 @@ void confirmdialog(
           children: [
             Icon(
               icon,
-              color: mainColor,
+              color: ThemeCol.mainColor,
               size: 30,
             ),
             Text(
@@ -75,7 +80,7 @@ void confirmdialog(
             child: Text(
               "Annuluer",
               style: TextStyle(
-                color: mainColor,
+                color: ThemeCol.mainColor,
               ),
             ),
           ),
@@ -84,7 +89,7 @@ void confirmdialog(
               child: Text(
                 "OK",
                 style: TextStyle(
-                  color: mainColor,
+                  color: ThemeCol.mainColor,
                 ),
               )),
         ],

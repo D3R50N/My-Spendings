@@ -55,11 +55,11 @@ class _EditPlanifState extends State<EditPlanif> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bkgColor,
+      backgroundColor: ThemeCol.bkgColor,
       appBar: AppBar(
         elevation: 0,
         // centerTitle: true,
-        backgroundColor: mainColor,
+        backgroundColor: ThemeCol.mainColor,
         title: GestureDetector(
             child: Text(old_title),
             onTap: () {
@@ -107,11 +107,11 @@ class _EditPlanifState extends State<EditPlanif> {
                 backgroundColor: Colors.white,
                 minimumSize: Size.fromHeight(40),
                 padding: EdgeInsets.all(18),
-                side: BorderSide(color: mainColor, width: 2),
+                side: BorderSide(color: ThemeCol.mainColor, width: 2),
               ),
               child: Text(
                 'Ajouter une transaction',
-                style: TextStyle(color: mainColor),
+                style: TextStyle(color: ThemeCol.mainColor),
               ),
               onPressed: () {
                 newTransac();
@@ -123,12 +123,12 @@ class _EditPlanifState extends State<EditPlanif> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                Icon(Icons.history, color: mainColor),
+                Icon(Icons.history, color: ThemeCol.mainColor),
                 Gap(3),
                 Text(
                   'Historique des transactions',
-                  style:
-                      TextStyle(color: mainColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: ThemeCol.mainColor, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -199,7 +199,7 @@ class _EditPlanifState extends State<EditPlanif> {
                   });
                 },
               ),
-              backgroundColor: bkgColor,
+              backgroundColor: ThemeCol.bkgColor,
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
@@ -219,7 +219,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -230,7 +230,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                       ),
                     ),
@@ -252,7 +252,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -263,7 +263,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                         suffixText: "FCFA",
                       ),
@@ -303,7 +303,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -314,7 +314,7 @@ class _EditPlanifState extends State<EditPlanif> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                       ),
                     ),
@@ -324,7 +324,7 @@ class _EditPlanifState extends State<EditPlanif> {
               actions: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: mainColor,
+                    backgroundColor: ThemeCol.mainColor,
                     minimumSize: Size.fromHeight(40),
                     padding: EdgeInsets.all(18),
                   ),
@@ -358,7 +358,7 @@ class _EditPlanifState extends State<EditPlanif> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Nom de la planification"),
-          backgroundColor: bkgColor,
+          backgroundColor: ThemeCol.bkgColor,
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -378,14 +378,14 @@ class _EditPlanifState extends State<EditPlanif> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2,
-                        color: mainColor,
+                        color: ThemeCol.mainColor,
                       ),
                     ),
                     contentPadding: EdgeInsets.all(10),
                     // prefixText: "Titre : ",
                     floatingLabelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: mainColor,
+                      color: ThemeCol.mainColor,
                     ),
                   ),
                 ),
@@ -395,7 +395,7 @@ class _EditPlanifState extends State<EditPlanif> {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: mainColor,
+                backgroundColor: ThemeCol.mainColor,
                 minimumSize: Size.fromHeight(40),
                 padding: EdgeInsets.all(18),
               ),

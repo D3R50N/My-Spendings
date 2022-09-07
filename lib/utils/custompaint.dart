@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 
 class RPSCustomPainter extends CustomPainter {
@@ -25,7 +26,7 @@ class RPSCustomPainter extends CustomPainter {
     canvas.drawPath(path0, paint0);
 
     Paint paint1 = Paint()
-      ..color = const Color.fromARGB(255, 0, 132, 121)
+      ..color = ThemeCol.mainColor
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 

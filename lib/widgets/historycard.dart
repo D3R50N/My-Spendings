@@ -53,7 +53,7 @@ class _HistoryCardState extends State<HistoryCard> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: mainColor.withOpacity(.3),
+              color: ThemeCol.mainColor.withOpacity(.3),
               blurRadius: 3,
               offset: Offset(0, 0),
             ),
@@ -71,7 +71,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 widget.model.parent?.incomesList.remove(widget.model);
                 widget.model.parent?.expensesList.remove(widget.model);
                 widget.model.parent?.save().then((value) {
-                  Navigator.pop(context);
+                  if (Settings.alwaysconfirm) Navigator.pop(context);
                   widget.fresh();
                   reload();
                 });
@@ -120,7 +120,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: widget.model.isIncoming
-                                ? mainColor
+                                ? ThemeCol.mainColor
                                 : Color.fromARGB(255, 220, 35, 22)),
                       ),
                     ],
@@ -177,7 +177,7 @@ class _HistoryCardState extends State<HistoryCard> {
                   });
                 },
               ),
-              backgroundColor: bkgColor,
+              backgroundColor: ThemeCol.bkgColor,
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
@@ -197,7 +197,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -208,7 +208,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                       ),
                     ),
@@ -230,7 +230,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -241,7 +241,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                         suffixText: "FCFA",
                       ),
@@ -281,7 +281,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 2,
-                            color: mainColor,
+                            color: ThemeCol.mainColor,
                           ),
                         ),
                         contentPadding: EdgeInsets.all(10),
@@ -292,7 +292,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         ),
                         floatingLabelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: mainColor,
+                          color: ThemeCol.mainColor,
                         ),
                       ),
                     ),
@@ -302,7 +302,7 @@ class _HistoryCardState extends State<HistoryCard> {
               actions: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: mainColor,
+                    backgroundColor: ThemeCol.mainColor,
                     minimumSize: Size.fromHeight(40),
                     padding: EdgeInsets.all(18),
                   ),

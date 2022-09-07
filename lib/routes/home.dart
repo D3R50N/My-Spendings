@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/extensions/string_extensions.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
@@ -110,7 +111,7 @@ class _HomeState extends State<Home> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: bkgColor,
+          backgroundColor: ThemeCol.bkgColor,
           appBar: AppBar(
             toolbarHeight: kToolbarHeight + 20,
             title: Column(
@@ -125,16 +126,16 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  "Max Andy M.",
+                  Settings.username,
                   style: boldwhite(size: 18),
                 ),
               ],
             ),
             elevation: 0,
-            backgroundColor: mainColor,
+            backgroundColor: ThemeCol.mainColor,
             actions: [
               whiteIcon(Icons.settings_outlined, onPressed: () {
-                reload();
+                push(context, Routes.settingspage);
               })
             ],
           ),
@@ -151,7 +152,7 @@ class _HomeState extends State<Home> {
                     CarouselSlider(
                       carouselController: carouselController,
                       options: CarouselOptions(
-                        autoPlay: all.length > 1,
+                        autoPlay: all.length > 1 && Settings.autoscroll,
                         viewportFraction: 1,
                         // aspectRatio: showSolde.value ? 1.4 : 1.6,
                         height: showSolde.value ? 250 : 200,
@@ -196,7 +197,7 @@ class _HomeState extends State<Home> {
                                       "Voir tout",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: mainColor,
+                                        color: ThemeCol.mainColor,
                                       ),
                                     ),
                                   ],
@@ -268,7 +269,7 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.add_rounded),
             label: const Text('Nouvelle planif'),
             foregroundColor: Colors.white,
-            backgroundColor: mainColor,
+            backgroundColor: ThemeCol.mainColor,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -319,7 +320,7 @@ class _HomeState extends State<Home> {
                                     subtitle: Text("Détails"),
                                     onTap: () {},
                                     leading: CircleAvatar(
-                                      backgroundColor: mainColor,
+                                      backgroundColor: ThemeCol.mainColor,
                                       child: Icon(Icons.attach_money_rounded),
                                     ),
                                   ),
@@ -328,7 +329,7 @@ class _HomeState extends State<Home> {
                                     subtitle: Text("Détails"),
                                     onTap: () {},
                                     leading: CircleAvatar(
-                                      backgroundColor: mainColor,
+                                      backgroundColor: ThemeCol.mainColor,
                                       child: Icon(Icons.calculate_rounded),
                                     ),
                                   ),
@@ -337,7 +338,7 @@ class _HomeState extends State<Home> {
                                     subtitle: Text("Détails"),
                                     onTap: () {},
                                     leading: CircleAvatar(
-                                      backgroundColor: mainColor,
+                                      backgroundColor: ThemeCol.mainColor,
                                       child: Icon(Icons.trending_up_rounded),
                                     ),
                                   ),
@@ -356,11 +357,11 @@ class _HomeState extends State<Home> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
-                      color: mainColor,
+                      color: ThemeCol.mainColor,
                       width: 2,
                     ),
                   ),
-                  foregroundColor: mainColor,
+                  foregroundColor: ThemeCol.mainColor,
                   elevation: 0,
                 );
               }
@@ -371,12 +372,12 @@ class _HomeState extends State<Home> {
                 tooltip: 'Outils',
                 mini: true,
                 backgroundColor: Colors.white,
-                foregroundColor: mainColor,
+                foregroundColor: ThemeCol.mainColor,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide(
-                    color: mainColor,
+                    color: ThemeCol.mainColor,
                     width: 2,
                   ),
                 ),
@@ -398,7 +399,7 @@ class _HomeState extends State<Home> {
             'Nouvelle planification',
             textAlign: TextAlign.center,
           ),
-          backgroundColor: bkgColor,
+          backgroundColor: ThemeCol.bkgColor,
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -417,7 +418,7 @@ class _HomeState extends State<Home> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2,
-                        color: mainColor,
+                        color: ThemeCol.mainColor,
                       ),
                     ),
                     contentPadding: EdgeInsets.all(10),
@@ -427,7 +428,7 @@ class _HomeState extends State<Home> {
                     ),
                     floatingLabelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: mainColor,
+                      color: ThemeCol.mainColor,
                     ),
                   ),
                 ),
@@ -449,7 +450,7 @@ class _HomeState extends State<Home> {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 2,
-                        color: mainColor,
+                        color: ThemeCol.mainColor,
                       ),
                     ),
                     contentPadding: EdgeInsets.all(10),
@@ -460,7 +461,7 @@ class _HomeState extends State<Home> {
                     ),
                     floatingLabelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: mainColor,
+                      color: ThemeCol.mainColor,
                     ),
                     suffixText: "FCFA",
                   ),
@@ -471,7 +472,7 @@ class _HomeState extends State<Home> {
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: mainColor,
+                backgroundColor: ThemeCol.mainColor,
                 minimumSize: Size.fromHeight(40),
                 padding: EdgeInsets.all(18),
               ),

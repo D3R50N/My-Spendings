@@ -7,6 +7,7 @@ import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/routes/editplan.dart';
 import 'package:flutter_application_1/routes/home.dart';
 import 'package:flutter_application_1/routes/newplan.dart';
+import 'package:flutter_application_1/routes/settings.dart';
 import 'package:flutter_application_1/routes/startingpage.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 
@@ -43,6 +44,7 @@ class App extends StatelessWidget {
         Routes.startingpage: (context) => StartingPage(),
         Routes.newplanif: ((context) => NewPlanif()),
         Routes.editplanif: ((context) => EditPlanif()),
+        Routes.settingspage : ((context) => SettingsPage()),
       },
     );
   }

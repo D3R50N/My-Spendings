@@ -21,7 +21,7 @@ class StartingPage extends StatefulWidget {
 
 class _StartingPageState extends State<StartingPage> {
   var btnStyle = TextStyle(
-    color: mainColor,
+    color: ThemeCol.mainColor,
     fontWeight: FontWeight.bold,
   );
 
@@ -33,7 +33,7 @@ class _StartingPageState extends State<StartingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bkgColor,
+      backgroundColor: ThemeCol.bkgColor,
       body: PageView(
         controller: pageController,
         onPageChanged: (page) {
@@ -55,7 +55,7 @@ class _StartingPageState extends State<StartingPage> {
       ),
       bottomSheet: Container(
         padding: EdgeInsets.symmetric(horizontal: atEnd ? 0 : 10),
-        color: bkgColor,
+        color: ThemeCol.bkgColor,
         height: 60,
         child: atEnd
             ? TextButton(
@@ -65,7 +65,7 @@ class _StartingPageState extends State<StartingPage> {
                   });
                 },
                 style: TextButton.styleFrom(
-                  backgroundColor: mainColor,
+                  backgroundColor: ThemeCol.mainColor,
                   minimumSize: Size.fromHeight(40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
@@ -102,7 +102,7 @@ class _StartingPageState extends State<StartingPage> {
                       controller: pageController,
                       count: pageCount,
                       effect: WormEffect(
-                        activeDotColor: mainColor,
+                        activeDotColor: ThemeCol.mainColor,
                         dotColor: Colors.grey.shade400,
                         radius: 5,
                         dotHeight: 10,
@@ -141,7 +141,7 @@ class _StartingPageState extends State<StartingPage> {
           Opacity(
             opacity: .1,
             child: CircleAvatar(
-              backgroundColor: mainColor,
+              backgroundColor: ThemeCol.mainColor,
               child: Icon(
                 Icons.attach_money_rounded,
                 size: width(context),
@@ -155,7 +155,7 @@ class _StartingPageState extends State<StartingPage> {
             child: Text(
               'Enregistrez vos dépenses en seul geste et suivez en temps réel vos bénéfices.',
               style: TextStyle(
-                color: mainColor,
+                color: ThemeCol.mainColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -176,7 +176,7 @@ class _StartingPageState extends State<StartingPage> {
           Opacity(
             opacity: .1,
             child: CircleAvatar(
-              backgroundColor: mainColor,
+              backgroundColor: ThemeCol.mainColor,
               child: Icon(
                 Icons.account_balance_rounded,
                 size: width(context) * 0.8,
@@ -190,7 +190,7 @@ class _StartingPageState extends State<StartingPage> {
             child: Text(
               'Utilisez nos outils tel que le "Convertisseur" pour connaître vos encoûts dans n\'importe quelle devise.',
               style: TextStyle(
-                color: mainColor,
+                color: ThemeCol.mainColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -211,7 +211,7 @@ class _StartingPageState extends State<StartingPage> {
           Opacity(
             opacity: .1,
             child: CircleAvatar(
-              backgroundColor: mainColor,
+              backgroundColor: ThemeCol.mainColor,
               child: Icon(
                 Icons.history,
                 size: width(context) * 0.7,
@@ -225,7 +225,7 @@ class _StartingPageState extends State<StartingPage> {
             child: Text(
               'Accéder à l\'historique de vos transactions pour voir le bilan de vos dépenses.',
               style: TextStyle(
-                color: mainColor,
+                color: ThemeCol.mainColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),

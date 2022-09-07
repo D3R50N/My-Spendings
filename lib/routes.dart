@@ -3,4 +3,5 @@ class Routes {
   static String startingpage = "startingpage";
   static String newplanif = "newplanif";
   static String editplanif = "editplanif";
+  static String settingspage = "settingspage";
 }
