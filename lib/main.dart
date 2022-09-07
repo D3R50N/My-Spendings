@@ -35,7 +35,6 @@ class App extends StatelessWidget {
       title: 'My Spendings',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        
       ),
       initialRoute: prefs.getBool(Settings.firstTime) ?? true
           ? Routes.startingpage

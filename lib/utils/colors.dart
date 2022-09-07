@@ -14,22 +14,22 @@ import 'package:flutter_application_1/utils/globals.dart';
 class ThemeCol {
   static List<Color> mainColors = [
     Color.fromRGBO(0, 132, 122, 1),
-    Color.fromARGB(255, 112, 0, 132),
     Color.fromARGB(255, 132, 88, 0),
+    Color.fromARGB(255, 112, 0, 132),
     Color.fromARGB(255, 0, 86, 132),
     Color.fromARGB(255, 132, 0, 0),
   ];
   static List<Color> cardColors = [
     Color.fromRGBO(0, 124, 113, 1),
-    Color.fromARGB(255, 95, 0, 124),
     Color.fromARGB(255, 109, 73, 2),
+    Color.fromARGB(255, 95, 0, 124),
     Color.fromARGB(255, 1, 79, 121),
     Color.fromARGB(255, 113, 11, 11),
   ];
   static List<Color> bkgColors = [
     Color.fromARGB(255, 243, 255, 253),
-    Color.fromARGB(255, 255, 243, 252),
     Color.fromARGB(255, 255, 250, 243),
+    Color.fromARGB(255, 255, 243, 252),
     Color.fromARGB(255, 239, 241, 255),
     Color.fromARGB(255, 255, 239, 239),
   ];

@@ -48,6 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       backgroundColor: ThemeCol.bkgColor,
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: ListBody(
