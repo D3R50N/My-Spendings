@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/date_utils.dart';
-import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 import 'package:flutter_application_1/widgets/historycard.dart';
 import 'package:flutter_application_1/widgets/spendingscard.dart';
@@ -40,7 +39,14 @@ class _EditPlanifState extends State<EditPlanif> {
   String old_title = newmodel
       .title; //NOTE Pour modifier le nom mais uniquement après la sauvegarde
 
-  bool hasChanged = false;
+  int incomes_count = newmodel.incomesList.length;
+  int expenses_count = newmodel.expensesList.length;
+
+  bool get hasChanged {
+    return newmodel.incomesList.length != incomes_count ||
+        newmodel.expensesList.length != expenses_count ||
+        newmodel.title != old_title;
+  }
 
   @override
   void initState() {
@@ -60,14 +66,20 @@ class _EditPlanifState extends State<EditPlanif> {
             child: Text(old_title),
             onTap: () {
               // Navigator.pushNamed(context, Routes.home);
-
               rename();
             }),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              icon: Icon(Icons.save_alt_outlined),
+              icon: hasChanged
+                  ? Badge(
+                      badgeContent: Text(
+                        '',
+                      ),
+                      child: Icon(Icons.save_alt_outlined),
+                    )
+                  : Icon(Icons.save_alt_outlined),
               onPressed: () {
                 //NOTE Enlever le dialogue avant d'afficher la page
                 // Navigator.of(context).pop();

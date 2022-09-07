@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
@@ -37,6 +38,16 @@ class _NewPlanifState extends State<NewPlanif> {
   );
   String old_title = newmodel.title;
 
+  int incomes_count = newmodel.incomesList.length;
+  int expenses_count = newmodel.expensesList.length;
+
+  bool get hasChanged {
+    return newmodel.incomesList.length != incomes_count ||
+        newmodel.expensesList.length != expenses_count ||
+        newmodel.title != old_title ||
+        true;
+  }
+
   @override
   void initState() {
     curr_type = list.first;
@@ -60,7 +71,14 @@ class _NewPlanifState extends State<NewPlanif> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              icon: Icon(Icons.save_alt_outlined),
+              icon: hasChanged
+                  ? Badge(
+                      badgeContent: Text(
+                        '',
+                      ),
+                      child: Icon(Icons.save_alt_outlined),
+                    )
+                  : Icon(Icons.save_alt_outlined),
               onPressed: () {
                 newmodel.title = old_title;
 
