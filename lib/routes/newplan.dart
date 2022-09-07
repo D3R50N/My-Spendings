@@ -31,6 +31,12 @@ class _NewPlanifState extends State<NewPlanif> {
   TextEditingController title_controller = TextEditingController();
   TextEditingController date_controller =
       TextEditingController(text: AppDateUtils.toFr(DateTime.now()));
+
+  TextEditingController planif_name_controller = TextEditingController(
+    text: newmodel.title,
+  );
+  String old_title = newmodel.title;
+
   @override
   void initState() {
     curr_type = list.first;
@@ -46,9 +52,9 @@ class _NewPlanifState extends State<NewPlanif> {
         // centerTitle: true,
         backgroundColor: mainColor,
         title: GestureDetector(
-            child: Text(newmodel.title),
+            child: Text(old_title),
             onTap: () {
-              pushRoute(context, Routes.home);
+              rename();
             }),
         actions: [
           Padding(
@@ -56,12 +62,17 @@ class _NewPlanifState extends State<NewPlanif> {
             child: IconButton(
               icon: Icon(Icons.save_alt_outlined),
               onPressed: () {
-                //NOTE Enlever le dialogue avant d'afficher la page
-                // Navigator.of(context).pop();
+                newmodel.title = old_title;
+
                 spendingsBox.add(newmodel).then((value) {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pushReplacementNamed(context, Routes.home);
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.pop(context);
+                  } //NOTE Revenir sur la page précédente
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.pop(context);
+                  } //NOTE Enlever le dialog
+                  Navigator.pushReplacementNamed(
+                      context, Routes.home); //Remplacer la page
                 });
               },
             ),
@@ -326,6 +337,71 @@ class _NewPlanifState extends State<NewPlanif> {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  void rename() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Nom de la planification"),
+          backgroundColor: bkgColor,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: planif_name_controller,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  decoration: InputDecoration(
+                    filled: true,
+
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: Colors.black.withOpacity(.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: mainColor,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    // prefixText: "Titre : ",
+                    floatingLabelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: mainColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: mainColor,
+                minimumSize: Size.fromHeight(40),
+                padding: EdgeInsets.all(18),
+              ),
+              child: Text(
+                'Enregistrer',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  old_title = planif_name_controller.text;
+                });
+              },
+            ),
+          ],
         );
       },
     );

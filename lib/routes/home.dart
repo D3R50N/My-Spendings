@@ -39,18 +39,22 @@ class _HomeState extends State<Home> {
   late TextEditingController dialog_title, dialog_capital;
   @override
   void initState() {
+    reload = () {
+      SpendingsModel.all().then((value) {
+        setState(() {
+          all = value;
+        });
+      });
+      HistoryModel.all().then((value) {
+        setState(() {
+          histories = value;
+        });
+      });
+    };
+    reload();
+
     dialog_title = TextEditingController();
     dialog_capital = TextEditingController(text: "0");
-    SpendingsModel.all().then((value) {
-      setState(() {
-        all = value;
-      });
-    });
-    HistoryModel.all().then((value) {
-      setState(() {
-        histories = value;
-      });
-    });
     _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -76,14 +80,14 @@ class _HomeState extends State<Home> {
     });
 
     showSolde.addListener(() {
-      setState(() {});
+      if (mounted) setState(() {});
     });
     super.initState();
   }
 
   @override
   void dispose() {
-    showSolde = ValueNotifier(false);
+    // showSolde = ValueNotifier(false);
     super.dispose();
   }
 
@@ -467,7 +471,7 @@ class _HomeState extends State<Home> {
                 // Navigator.of(context).pop();
                 newmodel = SpendingsModel(double.parse(dialog_capital.text),
                     title: dialog_title.text.empty
-                        ? "Sans nom"
+                        ? NameUtil.untitled
                         : dialog_title.text);
 
                 push(context, Routes.newplanif);

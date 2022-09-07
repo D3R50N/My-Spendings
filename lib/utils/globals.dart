@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ValueNotifier<bool> showSolde = ValueNotifier(false);
+late Function() reload;
 
 late SharedPreferences prefs;
 late Box<SpendingsModel> spendingsBox;
@@ -17,4 +18,13 @@ class Boxes {
 
 class Settings {
   static String firstTime = "firstTime";
+}
+
+class NameUtil {
+  static String get untitled {
+    var currNum = spendingsBox.values
+        .where((element) => element.title.startsWith("Sans nom"))
+        .length;
+    return currNum > 0 ? "Sans nom ($currNum)" : "Sans nom";
+  }
 }

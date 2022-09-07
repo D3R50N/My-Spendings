@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/models/historymodel.dart';
+import 'package:flutter_application_1/utils/date_utils.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 import 'package:hive/hive.dart';
 part 'spendingsmodel.g.dart';
@@ -14,7 +15,7 @@ class SpendingsModel extends HiveObject {
   final double capital;
 
   @HiveField(1)
-  final String title;
+  late String title;
 
   @HiveField(2)
   final String devise;
@@ -24,7 +25,7 @@ class SpendingsModel extends HiveObject {
     this.devise = "FCFA",
     this.title = "Dépenses",
   }) {
-    add(HistoryModel("Capital", DateTime.now().toString(), capital,
+    add(HistoryModel("Capital", AppDateUtils.toFr(DateTime.now()), capital,
         isIncoming: true));
   }
 
@@ -89,14 +90,24 @@ class SpendingsModel extends HiveObject {
   String str(double amount) {
     String ret = "";
     int counter = 0;
+    bool hasDecimal = amount.ceil().toDouble() != amount;
     var splitted = amount.toString().split("").reversed;
+    if (hasDecimal) {
+      splitted = amount.toString().split(".").first.split("").reversed;
+    }
     for (var i = 0; i < splitted.length; i++) {
       ret += splitted.elementAt(i);
+      if (splitted.elementAt(i) == ".") continue;
       counter++;
       if (counter > 2 && i != splitted.length - 1) {
         ret += " ";
         counter = 0;
       }
+    }
+    if (hasDecimal) {
+      ret =
+          ("." + amount.toString().split(".").last).split("").reversed.join() +
+              ret;
     }
     return ret.split("").reversed.join() + " " + devise;
   }

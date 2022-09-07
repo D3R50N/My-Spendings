@@ -29,8 +29,19 @@ class _EditPlanifState extends State<EditPlanif> {
 
   TextEditingController amount_controller = TextEditingController();
   TextEditingController title_controller = TextEditingController();
-  TextEditingController date_controller =
-      TextEditingController(text: AppDateUtils.toFr(DateTime.now()));
+  TextEditingController date_controller = TextEditingController(
+    text: AppDateUtils.toFr(DateTime.now()),
+  );
+
+  TextEditingController planif_name_controller = TextEditingController(
+    text: newmodel.title,
+  );
+
+  String old_title = newmodel
+      .title; //NOTE Pour modifier le nom mais uniquement après la sauvegarde
+
+  bool hasChanged = false;
+
   @override
   void initState() {
     curr_type = list.first;
@@ -46,9 +57,11 @@ class _EditPlanifState extends State<EditPlanif> {
         // centerTitle: true,
         backgroundColor: mainColor,
         title: GestureDetector(
-            child: Text(newmodel.title),
+            child: Text(old_title),
             onTap: () {
-              pushRoute(context, Routes.home);
+              // Navigator.pushNamed(context, Routes.home);
+
+              rename();
             }),
         actions: [
           Padding(
@@ -58,8 +71,10 @@ class _EditPlanifState extends State<EditPlanif> {
               onPressed: () {
                 //NOTE Enlever le dialogue avant d'afficher la page
                 // Navigator.of(context).pop();
+                newmodel.title = old_title;
                 spendingsBox.get(newmodel.key)?.save().then((value) {
                   Navigator.of(context).pop();
+                  reload();
                 });
               },
             ),
@@ -324,6 +339,71 @@ class _EditPlanifState extends State<EditPlanif> {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  void rename() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Nom de la planification"),
+          backgroundColor: bkgColor,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: planif_name_controller,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  decoration: InputDecoration(
+                    filled: true,
+
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: Colors.black.withOpacity(.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: mainColor,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.all(10),
+                    // prefixText: "Titre : ",
+                    floatingLabelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: mainColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: mainColor,
+                minimumSize: Size.fromHeight(40),
+                padding: EdgeInsets.all(18),
+              ),
+              child: Text(
+                'Enregistrer',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  old_title = planif_name_controller.text;
+                });
+              },
+            ),
+          ],
         );
       },
     );

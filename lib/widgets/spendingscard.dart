@@ -68,14 +68,20 @@ class SpendingsCardState extends State<SpendingsCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Opacity(
-                              opacity: .8,
-                              child: AutoSizeText(
-                                widget.model.title,
-                                style: boldwhite(underlined: true),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
+                            child: GestureDetector(
+                              onTap: () {
+                                newmodel = spendingsBox.get(widget.model.key)!;
+                                push(context, Routes.editplanif);
+                              },  
+                              child: Opacity(
+                                opacity: .8,
+                                child: AutoSizeText(
+                                  widget.model.title,
+                                  style: boldwhite(underlined: true),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           )
