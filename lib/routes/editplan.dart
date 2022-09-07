@@ -19,8 +19,6 @@ class EditPlanif extends StatefulWidget {
 }
 
 class _EditPlanifState extends State<EditPlanif> {
-  List<HistoryModel> histories = [];
-
   int year_limit = 1;
 
   List list = ["Nouvelle dépense", "Nouvelle entrée"];
@@ -143,12 +141,18 @@ class _EditPlanifState extends State<EditPlanif> {
                     .map((e) => HistoryCard(
                           e,
                           showDate: true,
+                          fresh: () {
+                            setState(() {});
+                          },
                         ))
                     .toList(),
                 ...newmodel.expensesList
                     .map((e) => HistoryCard(
                           e,
                           showDate: true,
+                          fresh: () {
+                            setState(() {});
+                          },
                         ))
                     .toList(),
               ],

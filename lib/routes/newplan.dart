@@ -21,8 +21,6 @@ class NewPlanif extends StatefulWidget {
 }
 
 class _NewPlanifState extends State<NewPlanif> {
-  List<HistoryModel> histories = [];
-
   int year_limit = 1;
 
   List list = ["Nouvelle dépense", "Nouvelle entrée"];
@@ -143,18 +141,26 @@ class _NewPlanifState extends State<NewPlanif> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                ...newmodel.incomesList
-                    .map((e) => HistoryCard(
-                          e,
-                          showDate: true,
-                        ))
-                    .toList(),
-                ...newmodel.expensesList
-                    .map((e) => HistoryCard(
-                          e,
-                          showDate: true,
-                        ))
-                    .toList(),
+                ...newmodel.incomesList.map((e) {
+                  e.parent = newmodel;
+                  return HistoryCard(
+                    e,
+                    showDate: true,
+                    fresh: () {
+                      setState(() {});
+                    },
+                  );
+                }).toList(),
+                ...newmodel.expensesList.map((e) {
+                  e.parent = newmodel;
+                  return HistoryCard(
+                    e,
+                    showDate: true,
+                    fresh: () {
+                      setState(() {});
+                    },
+                  );
+                }).toList(),
               ],
             ),
           )

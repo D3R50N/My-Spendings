@@ -7,15 +7,15 @@ part 'historymodel.g.dart';
 @HiveType(typeId: 1)
 class HistoryModel extends HiveObject {
   @HiveField(0)
-  final String title;
+  String title;
   @HiveField(1)
-  final double amount;
+  double amount;
 
   @HiveField(2)
-  final bool isIncoming;
+  bool isIncoming;
 
   @HiveField(3)
-  final String date;
+  String date;
 
   SpendingsModel? parent;
 

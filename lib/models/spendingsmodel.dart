@@ -39,8 +39,8 @@ class SpendingsModel extends HiveObject {
     }
   }
 
-  void edit(int index, HistoryModel value, {type = false}) {
-    if (type) {
+  void edit(int index, HistoryModel value, {expense = true}) {
+    if (expense) {
       expensesList[index] = value;
     } else {
       incomesList[index] = value;

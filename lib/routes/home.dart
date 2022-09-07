@@ -41,14 +41,22 @@ class _HomeState extends State<Home> {
   void initState() {
     reload = () {
       SpendingsModel.all().then((value) {
-        setState(() {
-          all = value;
-        });
+        if (mounted) {
+          setState(() {
+            all = value;
+          });
+        }
       });
       HistoryModel.all().then((value) {
-        setState(() {
-          histories = value;
-        });
+        for (var item in value) {
+          print(item.title);
+        }
+
+        if (mounted) {
+          setState(() {
+            histories = value;
+          });
+        }
       });
     };
     reload();
@@ -119,7 +127,11 @@ class _HomeState extends State<Home> {
             ),
             elevation: 0,
             backgroundColor: mainColor,
-            actions: [whiteIcon(Icons.settings_outlined, onPressed: () {})],
+            actions: [
+              whiteIcon(Icons.settings_outlined, onPressed: () {
+                reload();
+              })
+            ],
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -146,16 +158,7 @@ class _HomeState extends State<Home> {
                             return SpendingsCard(
                               model,
                               onDelete: () {
-                                SpendingsModel.all().then((value) {
-                                  setState(() {
-                                    all = value;
-                                  });
-                                });
-                                HistoryModel.all().then((value) {
-                                  setState(() {
-                                    histories = value;
-                                  });
-                                });
+                                reload();
                               },
                             );
                           },
@@ -202,7 +205,12 @@ class _HomeState extends State<Home> {
                                     children: [
                                       Gap(10),
                                       ...histories
-                                          .map((e) => HistoryCard(e))
+                                          .map((e) => HistoryCard(
+                                                e,
+                                                fresh: () {
+                                                  setState(() {});
+                                                },
+                                              ))
                                           .toList(),
                                       Gap(100),
                                     ],
