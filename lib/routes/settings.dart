@@ -28,7 +28,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    // pushRoute(context, "/");
     name_controller = TextEditingController(text: old_name);
     lock_controller = TextEditingController(text: lock ? old_code : "");
     super.initState();
@@ -40,7 +39,12 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: ThemeCol.mainColor,
-        title: Text('Paramètres'),
+        title: GestureDetector(
+          child: Text('Paramètres'),
+          onTap: () {
+            pushRoute(context, "/");
+          },
+        ),
       ),
       backgroundColor: ThemeCol.bkgColor,
       body: SingleChildScrollView(
@@ -325,16 +329,14 @@ class _SettingsPageState extends State<SettingsPage> {
               Gap(5),
               Center(
                 child: Wrap(
-                  children: [
-                    themeCard(0),
-                    themeCard(1),
-                    themeCard(0),
-                    themeCard(0),
-                    themeCard(1),
-                    themeCard(1),
-                    themeCard(1),
-                    themeCard(0),
-                  ],
+                  children: ThemeCol.mainColors.map((e) {
+                    var idx = ThemeCol.mainColors.indexOf(e);
+                    if (idx < 2) {
+                      return themeCard(idx, isPro: false);
+                    }
+
+                    return themeCard(idx);
+                  }).toList(),
                 ),
               ),
               bottomSheet(width: 0),
@@ -346,20 +348,47 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget themeCard(int theme) {
+  Widget themeCard(int theme, {bool isPro = true}) {
     return GestureDetector(
       onTap: () {
-        ThemeCol.setTheme(theme);
-        setState(() {});
+        if (isPro) {
+          errordialog(context, text: "Disponible dans la version pro !");
+          return;
+        }
+
+        ThemeCol.setTheme(theme).then((value) {
+          setState(() {});
+        });
       },
-      child: SizedBox(
-        width: width(context) / 6,
-        height: width(context) / 6,
-        child: Card(
-          color: theme < ThemeCol.mainColors.length
-              ? ThemeCol.mainColors[theme]
-              : ThemeCol.mainColors.first,
-        ),
+      child: Stack(
+        children: [
+          SizedBox(
+            width: width(context) / 6,
+            height: width(context) / 6,
+            child: Card(
+              color: theme < ThemeCol.mainColors.length
+                  ? ThemeCol.mainColors[theme]
+                  : ThemeCol.mainColors.first,
+            ),
+          ),
+          if (isPro)
+            SizedBox(
+              width: width(context) / 6,
+              height: width(context) / 6,
+              child: Card(
+                color: Colors.black.withOpacity(.2),
+                child: Center(
+                  child: Text(
+                    "PRO",
+                    style: TextStyle(
+                      color: Color.fromARGB(184, 255, 255, 255),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -25,7 +25,11 @@ class Settings {
   static bool get lock => prefs.getBool("lock") ?? false;
   static String get username => prefs.getString("username") ?? "Inconnu";
   static String get lockcode => prefs.getString("lockcode") ?? "";
+  static int get currentheme => prefs.getInt("currentheme") ?? 0;
 
+  static Future<void> settheme(int theme) async {
+    await prefs.setInt("currentheme", theme);
+  }
   static Future<void> setsave(bool b) async{
     await prefs.setBool("autosave", b);
   }

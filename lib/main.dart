@@ -35,6 +35,7 @@ class App extends StatelessWidget {
       title: 'My Spendings',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        
       ),
       initialRoute: prefs.getBool(Settings.firstTime) ?? true
           ? Routes.startingpage
@@ -44,7 +45,7 @@ class App extends StatelessWidget {
         Routes.startingpage: (context) => StartingPage(),
         Routes.newplanif: ((context) => NewPlanif()),
         Routes.editplanif: ((context) => EditPlanif()),
-        Routes.settingspage : ((context) => SettingsPage()),
+        Routes.settingspage: ((context) => SettingsPage()),
       },
     );
   }
