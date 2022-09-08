@@ -6,6 +6,7 @@ import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/routes/editplan.dart';
 import 'package:flutter_application_1/routes/home.dart';
+import 'package:flutter_application_1/routes/lockcode.dart';
 import 'package:flutter_application_1/routes/newplan.dart';
 import 'package:flutter_application_1/routes/settings.dart';
 import 'package:flutter_application_1/routes/startingpage.dart';
@@ -36,15 +37,18 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: prefs.getBool(Settings.firstTime) ?? true
-          ? Routes.startingpage
-          : Routes.home,
+      initialRoute: Settings.lock
+          ? Routes.lockpage
+          : prefs.getBool(Settings.firstTime) ?? true
+              ? Routes.startingpage
+              : Routes.home,
       routes: {
         Routes.home: (context) => Home(),
         Routes.startingpage: (context) => StartingPage(),
         Routes.newplanif: ((context) => NewPlanif()),
         Routes.editplanif: ((context) => EditPlanif()),
         Routes.settingspage: ((context) => SettingsPage()),
+        Routes.lockpage: ((context) => LockCodePage()),
       },
     );
   }

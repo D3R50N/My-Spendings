@@ -4,4 +4,5 @@ class Routes {
   static String newplanif = "newplanif";
   static String editplanif = "editplanif";
   static String settingspage = "settingspage";
+  static String lockpage = "lockpage";
 }

@@ -78,7 +78,7 @@ void confirmdialog(
               Navigator.of(context).pop();
             },
             child: Text(
-              "Annuluer",
+              "Annluer",
               style: TextStyle(
                 color: ThemeCol.mainColor,
               ),
