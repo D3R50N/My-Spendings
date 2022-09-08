@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/extensions/string_extensions.dart';
@@ -32,6 +34,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   String lastoperator = "", firstTerm = "", lastTerm = "";
 
+  String lastError = "-", lastEntry = "-", lastOutput = "-";
   bool hasPressOperator = true;
   @override
   void initState() {
@@ -87,360 +90,421 @@ class _CalculatorPageState extends State<CalculatorPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //NOTE Screen
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  child: TextField(
-                    // textDirection: TextDirection.rtl,
-                    textAlign: TextAlign.end,
-                    showCursor: false,
-                    controller: screenController,
-                    scrollController: scrollController,
-                    readOnly: true,
-                    keyboardType: TextInputType.number,
-                    scrollPhysics: BouncingScrollPhysics(),
-                    onChanged: (t) {
-                      // scrollController.jumpTo(100);
-                    },
-                    maxLines: 1,
-                    minLines: 1,
-                    style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.black.withOpacity(.5),
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.ellipsis,
-                      letterSpacing: 2,
-                    ),
-
-                    // textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefix: Padding(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: Text(
-                          lastoperator,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black.withOpacity(.5),
-                            fontWeight: FontWeight.w500,
-                            overflow: TextOverflow.ellipsis,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: ThemeCol.mainColor.withOpacity(.2),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: ThemeCol.mainColor.withOpacity(.2),
-                        ),
-                      ),
-                      // contentPadding:  EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Wrap(
-                        children: [
-                          Text(
-                            "Entrée précédente : ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                          Text(
-                            "4569+19",
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Wrap(
-                        children: [
-                          Text(
-                            "Sortie précédente : ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                          Text(
-                            "4588",
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Wrap(
-                        children: [
-                          Text(
-                            "Erreur de calcul : ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                          Text(
-                            "aucune",
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(.5),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(179, 0, 0, 0),
-                      padding: EdgeInsets.all(15),
-                    ),
-                    child: Text(
-                      "⅟ⅹ",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: width(context) / 16,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(179, 0, 0, 0),
-                      padding: EdgeInsets.all(15),
-                    ),
-                    child: Text(
-                      "x²",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: width(context) / 16,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(179, 0, 0, 0),
-                      padding: EdgeInsets.all(15),
-                    ),
-                    child: Text(
-                      "%",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: width(context) / 16,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color.fromARGB(179, 0, 0, 0),
-                      padding: EdgeInsets.all(15),
-                    ),
-                    child: Text(
-                      "√",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: width(context) / 16,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+              calcScreen(),
+              outputInfos(),
+              toolButtons(context),
               Gap(10),
-              Expanded(
-                flex: 3,
-                child: Card(
-                  color: ThemeCol.mainColor.withOpacity(.9),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 3,
-                          children: [
-                            digit(
-                              '7',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '8',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '9',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '4',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '5',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '6',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '1',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '2',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '3',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              ',',
-                              onPressed: () {},
-                              isDigit: false,
-                            ),
-                            digit(
-                              '0',
-                              onPressed: () {},
-                            ),
-                            digit(
-                              '=',
-                              onPressed: () {
-                                lastTerm = screenController.text;
-                                if (lastoperator == Operators.div) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() /
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.mult) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() *
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.minus) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() -
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.plus) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() +
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                }
-                                // lastoperator = "";
-                                // firstTerm = "";
-                                // lastTerm = "";
-                                hasPressOperator = true;
-                              },
-                              isDigit: false,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 1,
-                          childAspectRatio: 15 / 16,
-                          children: [
-                            digit('↩',
-                                onPressed: () {
-                                  screenController.text = screenController.text
-                                      .substring(
-                                          0, screenController.text.length - 1);
-                                  if (screenController.text.empty) {
-                                    screenController.text = "0";
-                                    setState(() {
-                                      lastoperator = "";
-                                    });
-                                  }
-                                },
-                                isDigit: false,
-                                onLongPress: () {
-                                  screenController.text = "0";
-                                }),
-                            digit(
-                              Operators.div,
-                              onPressed: () {},
-                              isDigit: false,
-                              isOperator: true,
-                            ),
-                            digit(
-                              Operators.mult,
-                              onPressed: () {},
-                              isDigit: false,
-                              isOperator: true,
-                            ),
-                            digit(
-                              Operators.minus,
-                              onPressed: () {},
-                              isDigit: false,
-                              isOperator: true,
-                            ),
-                            digit(
-                              Operators.plus,
-                              onPressed: () {},
-                              isDigit: false,
-                              isOperator: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              calcKeyboard(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget calcKeyboard() {
+    return Expanded(
+              flex: 3,
+              child: Card(
+                color: ThemeCol.mainColor.withOpacity(.9),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Gap(10),
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(.2),
+                              // blurStyle: BlurStyle.outer,
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Card(
+                            color: ThemeCol.mainColor,
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                childAspectRatio: 1.5,
+                                crossAxisCount: 3,
+                                children: [
+                                  digit(
+                                    '7',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '8',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '9',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '4',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '5',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '6',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '1',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '2',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '3',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    ',',
+                                    onPressed: () {},
+                                    isDigit: false,
+                                  ),
+                                  digit(
+                                    '0',
+                                    onPressed: () {},
+                                  ),
+                                  digit(
+                                    '=',
+                                    onPressed: () {
+                                      lastTerm = screenController.text;
+
+                                      try {
+                                        if (lastoperator == Operators.div) {
+                                          screenController.text =
+                                              (firstTerm.toDouble() /
+                                                      lastTerm.toDouble())
+                                                  .toString()
+                                                  .toIntOrDouble()
+                                                  .toString();
+                                        } else if (lastoperator ==
+                                            Operators.mult) {
+                                          screenController.text =
+                                              (firstTerm.toDouble() *
+                                                      lastTerm.toDouble())
+                                                  .toString()
+                                                  .toIntOrDouble()
+                                                  .toString();
+                                        } else if (lastoperator ==
+                                            Operators.minus) {
+                                          screenController.text =
+                                              (firstTerm.toDouble() -
+                                                      lastTerm.toDouble())
+                                                  .toString()
+                                                  .toIntOrDouble()
+                                                  .toString();
+                                        } else if (lastoperator ==
+                                            Operators.plus) {
+                                          screenController.text =
+                                              (firstTerm.toDouble() +
+                                                      lastTerm.toDouble())
+                                                  .toString()
+                                                  .toIntOrDouble()
+                                                  .toString();
+                                        }
+
+                                        setState(() {
+                                          lastEntry = firstTerm +
+                                              lastoperator +
+                                              lastTerm;
+
+                                          lastOutput = screenController.text;
+                                          lastError = "-";
+                                        });
+                                      } on UnsupportedError {
+                                        setState(() {
+                                          lastError = "Opération impossible";
+                                        });
+                                      }
+
+                                      // lastoperator = "";
+                                      // firstTerm = "";
+                                      // lastTerm = "";
+                                      hasPressOperator = true;
+                                    },
+                                    isDigit: false,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        crossAxisCount: 1,
+                        childAspectRatio: 17 / 16,
+                        children: [
+                          digit('↩',
+                              onPressed: () {
+                                screenController.text = screenController.text
+                                    .substring(
+                                        0, screenController.text.length - 1);
+                                if (screenController.text.empty) {
+                                  screenController.text = "0";
+                                  setState(() {
+                                    lastoperator = "";
+                                  });
+                                }
+                              },
+                              isDigit: false,
+                              onLongPress: () {
+                                screenController.text = "0";
+                              }),
+                          digit(
+                            Operators.div,
+                            onPressed: () {},
+                            isDigit: false,
+                            isOperator: true,
+                          ),
+                          digit(
+                            Operators.mult,
+                            onPressed: () {},
+                            isDigit: false,
+                            isOperator: true,
+                          ),
+                          digit(
+                            Operators.minus,
+                            onPressed: () {},
+                            isDigit: false,
+                            isOperator: true,
+                          ),
+                          digit(
+                            Operators.plus,
+                            onPressed: () {},
+                            isDigit: false,
+                            isOperator: true,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+  }
+
+  Widget toolButtons(BuildContext context) {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(179, 0, 0, 0),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  child: Text(
+                    "⅟ⅹ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(context) / 16,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(179, 0, 0, 0),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  child: Text(
+                    "x²",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(context) / 16,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(179, 0, 0, 0),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  child: Text(
+                    "%",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(context) / 16,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(179, 0, 0, 0),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  child: Text(
+                    "√",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: width(context) / 16,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            );
+  }
+
+  Widget outputInfos() {
+    return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Wrap(
+                      children: [
+                        Text(
+                          "Entrée précédente : ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                        Text(
+                          lastEntry,
+                          style: TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Wrap(
+                      children: [
+                        Text(
+                          "Sortie précédente : ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                        Text(
+                          lastOutput,
+                          style: TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Wrap(
+                      children: [
+                        Text(
+                          "Erreur de calcul : ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                        Text(
+                          lastError,
+                          style: TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+  }
+
+  Widget calcScreen() {
+    return Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: TextField(
+                  // textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.end,
+                  showCursor: false,
+                  controller: screenController,
+                  scrollController: scrollController,
+                  readOnly: true,
+                  keyboardType: TextInputType.number,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  onChanged: (t) {
+                    // scrollController.jumpTo(100);
+                  },
+                  maxLines: 1,
+                  minLines: 1,
+                  style: TextStyle(
+                    fontSize: 28,
+                    color: Colors.black.withOpacity(.5),
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.ellipsis,
+                    letterSpacing: 2,
+                  ),
+
+                  // textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefix: Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Text(
+                        lastoperator,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black.withOpacity(.5),
+                          fontWeight: FontWeight.w500,
+                          overflow: TextOverflow.ellipsis,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: ThemeCol.mainColor.withOpacity(.2),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: ThemeCol.mainColor.withOpacity(.2),
+                      ),
+                    ),
+                    // contentPadding:  EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  ),
+                ),
+              ),
+            );
   }
 
   Widget digit(
@@ -451,49 +515,52 @@ class _CalculatorPageState extends State<CalculatorPage> {
     Function()? onLongPress,
   }) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: ThemeCol.mainColor.withOpacity(.0),
-          padding: EdgeInsets.all(width(context) / 30),
-          fixedSize: Size(width(context) / 6, width(context) / 6),
-        ),
-        child: Text(
-          number,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: width(context) / 15,
+      padding: const EdgeInsets.all(0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: ThemeCol.mainColor.withOpacity(.0),
+            padding: EdgeInsets.all(0),
+            fixedSize: Size(width(context) / 6, width(context) / 6),
           ),
-        ),
-        onLongPress: onLongPress,
-        onPressed: () {
-          if (isOperator) {
-            setState(() {
-              lastoperator = number;
-              hasPressOperator = true;
-            });
-          } else {
-            if (hasPressOperator) {
-              firstTerm = screenController.text;
-            }
-          }
-          if (isDigit) {
-            if (hasPressOperator) {
-              screenController.text = number;
-              hasPressOperator = false;
+          child: Text(
+            number,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: width(context) / 15,
+            ),
+          ),
+          onLongPress: onLongPress,
+          onPressed: () {
+            if (isOperator) {
+              setState(() {
+                lastoperator = number;
+                hasPressOperator = true;
+              });
             } else {
-              screenController.text += number;
+              if (hasPressOperator) {
+                firstTerm = screenController.text;
+              }
             }
-          }
+            if (isDigit) {
+              if (hasPressOperator) {
+                screenController.text = number;
+                hasPressOperator = false;
+              } else {
+                screenController.text += number;
+              }
+            }
 
-          scrollController.jumpTo(scrollController.position.maxScrollExtent +
-              (scrollController.position.maxScrollExtent > 0 && isDigit
-                  ? 15
-                  : 0));
+            scrollController.jumpTo(scrollController.position.maxScrollExtent +
+                (scrollController.position.maxScrollExtent > 0 && isDigit
+                    ? 15
+                    : 0));
 
-          onPressed();
-        },
+            onPressed();
+          },
+        ),
       ),
     );
   }

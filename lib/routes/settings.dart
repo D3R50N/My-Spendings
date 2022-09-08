@@ -334,7 +334,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Wrap(
                   children: ThemeCol.mainColors.map((e) {
                     var idx = ThemeCol.mainColors.indexOf(e);
-                    if (idx < 2) {
+                    if (idx < 8) {
                       return themeCard(idx, isPro: false);
                     }
 
@@ -343,6 +343,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               // bottomSheet(width: 0),
+              SizedBox(
+                height: height(context) / 10,
+              ),
             ],
           ),
         ),
