@@ -14,12 +14,15 @@ class SpendingsCard extends StatefulWidget {
   final SpendingsModel model;
   final bool showTitle, showEditBtn;
   final Function() onDelete;
-  const SpendingsCard(this.model,
-      {Key? key,
-      this.showTitle = true,
-      this.showEditBtn = true,
-      required this.onDelete})
-      : super(key: key);
+  final double gap;
+  const SpendingsCard(
+    this.model, {
+    Key? key,
+    this.showTitle = true,
+    this.showEditBtn = true,
+    required this.onDelete,
+    this.gap = 40,
+  }) : super(key: key);
 
   @override
   State<SpendingsCard> createState() => SpendingsCardState();
@@ -34,12 +37,12 @@ class SpendingsCardState extends State<SpendingsCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Gap(40),
+          Gap(widget.gap),
           Container(
             decoration: BoxDecoration(
               boxShadow: [

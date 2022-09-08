@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
@@ -42,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: GestureDetector(
           child: Text('Paramètres'),
           onTap: () {
-            pushRoute(context, "/");
+            pushRoute(context, Routes.home);
           },
         ),
       ),
@@ -269,6 +270,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
                 enabled: lock,
                 obscureText: !show_code,
+                obscuringCharacter: "✕",
                 decoration: InputDecoration(
                   filled: true,
                   fillColor:

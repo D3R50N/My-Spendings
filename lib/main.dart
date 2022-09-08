@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
+import 'package:flutter_application_1/routes/calculator.dart';
+import 'package:flutter_application_1/routes/converter.dart';
 import 'package:flutter_application_1/routes/editplan.dart';
 import 'package:flutter_application_1/routes/home.dart';
 import 'package:flutter_application_1/routes/lockcode.dart';
@@ -49,6 +51,9 @@ class App extends StatelessWidget {
         Routes.editplanif: ((context) => EditPlanif()),
         Routes.settingspage: ((context) => SettingsPage()),
         Routes.lockpage: ((context) => LockCodePage()),
+        Routes.calcpage: ((context) => CalculatorPage()),
+        Routes.converterpage: ((context) => ConverterPage()),
+        
       },
     );
   }

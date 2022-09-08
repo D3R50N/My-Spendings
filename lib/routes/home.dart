@@ -316,30 +316,52 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   ListTile(
-                                    title: Text("Convertisseur"),
-                                    subtitle: Text("Détails"),
-                                    onTap: () {},
-                                    leading: CircleAvatar(
-                                      backgroundColor: ThemeCol.mainColor,
-                                      child: Icon(Icons.attach_money_rounded),
-                                    ),
-                                  ),
-                                  ListTile(
                                     title: Text("Calculatrice"),
-                                    subtitle: Text("Détails"),
-                                    onTap: () {},
+                                    subtitle: Text(
+                                        "Effectuez des rapidement des opérations sur les montants"),
+                                    onTap: () {
+                                      push(context, Routes.calcpage);
+                                    },
                                     leading: CircleAvatar(
                                       backgroundColor: ThemeCol.mainColor,
-                                      child: Icon(Icons.calculate_rounded),
+                                      child: Icon(
+                                        Icons.calculate_rounded,
+                                        color: ThemeCol.bkgColor,
+                                      ),
                                     ),
                                   ),
+                                  Gap(5),
                                   ListTile(
-                                    title: Text("Espace trading"),
-                                    subtitle: Text("Détails"),
+                                    title: Text("Convertisseur"),
+                                    subtitle: Text(
+                                        "Consultez votre solde et vos dépenses en plusieurs devises"),
                                     onTap: () {},
                                     leading: CircleAvatar(
                                       backgroundColor: ThemeCol.mainColor,
-                                      child: Icon(Icons.trending_up_rounded),
+                                      child: Icon(
+                                        Icons.attach_money_rounded,
+                                        color: ThemeCol.bkgColor,
+                                      ),
+                                    ),
+                                  ),
+                                  Gap(5),
+                                  ListTile(
+                                    title: Text("Espace trading (PRO)"),
+                                    subtitle: Text(
+                                        "Gérez vos achats et ventes dans cet espace"),
+                                    onTap: () {
+                                      errordialog(
+                                        context,
+                                        text:
+                                            "Disponible dans la version pro !",
+                                      );
+                                    },
+                                    leading: CircleAvatar(
+                                      backgroundColor: ThemeCol.mainColor,
+                                      child: Icon(
+                                        Icons.trending_up_rounded,
+                                        color: ThemeCol.bkgColor,
+                                      ),
                                     ),
                                   ),
                                   Gap(30),

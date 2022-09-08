@@ -5,4 +5,6 @@ class Routes {
   static String editplanif = "editplanif";
   static String settingspage = "settingspage";
   static String lockpage = "lockpage";
+  static String calcpage = "calcpage";
+  static String converterpage = "converterpage";
 }

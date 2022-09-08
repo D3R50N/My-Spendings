@@ -9,14 +9,14 @@ import 'package:flutter_application_1/utils/functions.dart';
 import 'package:flutter_application_1/utils/globals.dart';
 import 'package:gap/gap.dart';
 
-class LockCodePage extends StatefulWidget {
-  const LockCodePage({Key? key}) : super(key: key);
+class ConverterPage extends StatefulWidget {
+  const ConverterPage({Key? key}) : super(key: key);
 
   @override
-  State<LockCodePage> createState() => _LockCodePageState();
+  State<ConverterPage> createState() => _ConverterPageState();
 }
 
-class _LockCodePageState extends State<LockCodePage> {
+class _ConverterPageState extends State<ConverterPage> {
   TextEditingController lock_controller = TextEditingController();
 
   bool show_code = false, show_error = false;
@@ -46,7 +46,6 @@ class _LockCodePageState extends State<LockCodePage> {
                 scrollPhysics: BouncingScrollPhysics(),
                 onChanged: (t) {},
                 obscureText: !show_code,
-                obscuringCharacter: "✕",
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
