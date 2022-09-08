@@ -340,7 +340,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   }).toList(),
                 ),
               ),
-              bottomSheet(width: 0),
+              // bottomSheet(width: 0),
             ],
           ),
         ),
@@ -394,7 +394,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget bottomSheet({width = 2}) {
+  Widget bottomSheet({double width = 2}) {
     return Container(
       decoration: BoxDecoration(
           border: Border(
