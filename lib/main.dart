@@ -20,7 +20,7 @@ Future<void> main() async {
   calcHistoriesBox = await Hive.openBox<List<String>>(Boxes.calcHistories);
   prefs = await SharedPreferences.getInstance();
   runApp(const App());
-}
+} 
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
