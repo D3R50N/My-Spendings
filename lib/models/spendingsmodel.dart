@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/extensions/num_extension.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/utils/date_utils.dart';
 import 'package:flutter_application_1/utils/globals.dart';
@@ -105,8 +106,8 @@ class SpendingsModel extends HiveObject {
   String str(double amount) {
     String ret = "";
     int counter = 0;
-    bool hasDecimal = amount.ceil().toDouble() != amount;
-    var splitted = amount.toString().split("").reversed;
+    bool hasDecimal = amount.toIntOrDouble().ceil().toDouble() != amount;
+    var splitted = amount.toIntOrDouble().toString().split("").reversed;
     if (hasDecimal) {
       splitted = amount.toString().split(".").first.split("").reversed;
     }

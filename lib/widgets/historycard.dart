@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/extensions/num_extension.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/utils/colors.dart';
 import 'package:flutter_application_1/utils/date_utils.dart';
@@ -116,7 +117,7 @@ class _HistoryCardState extends State<HistoryCard> {
                                 : widget.model.isIncoming
                                     ? "+"
                                     : "-") +
-                            " ${widget.model.amount}",
+                            " ${widget.model.amount.toIntOrDouble()}",
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: widget.model.isIncoming

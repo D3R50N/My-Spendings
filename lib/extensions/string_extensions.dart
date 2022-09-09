@@ -13,7 +13,7 @@ extension StringExtension on String {
     return double.parse(this);
   }
 
-  num toIntOrDouble() {
-    return toDouble().toIntOrDouble();
+  String toIntOrDouble() {
+    return toDouble().toIntOrDouble().toString();
   }
 }

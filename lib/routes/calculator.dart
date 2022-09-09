@@ -394,11 +394,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
           try {
             var _temp = screenController.text;
 
-            if (sqrt(screenController.text.toIntOrDouble()).isNaN) {
+            if (sqrt(screenController.text.toIntOrDouble().toDouble()).isNaN) {
               throw UnsupportedError("");
             }
             screenController.text =
-                sqrt(screenController.text.toIntOrDouble()).toString();
+                sqrt(screenController.text.toIntOrDouble().toDouble()).toString().toIntOrDouble();
             setState(() {
               lastoperator = "√";
               lastEntry = "√$_temp";
