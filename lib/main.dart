@@ -24,7 +24,7 @@ Future<void> main() async {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
