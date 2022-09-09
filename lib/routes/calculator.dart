@@ -6,8 +6,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/extensions/string_extensions.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
+import 'package:flutter_application_1/routes.dart';
 import 'package:flutter_application_1/utils/colors.dart';
+import 'package:flutter_application_1/utils/date_utils.dart';
 import 'package:flutter_application_1/utils/functions.dart';
+import 'package:flutter_application_1/utils/globals.dart';
 import 'package:gap/gap.dart';
 
 class Operators {
@@ -73,7 +76,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
           .toIntOrDouble()
           .toString();
     }
-    return "Oups...";
+    throw UnsupportedError("");
+  }
+
+  void saveToHistory() {
+    calcHistoriesBox.add(
+        [lastEntry + " = " + lastOutput, AppDateUtils.toFr(DateTime.now())]);
   }
 
   void getResult() {
@@ -86,6 +94,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
         lastEntry = "$firstTerm  $lastoperator  $lastTerm";
         lastOutput = screenController.text;
         lastError = "-";
+
+        saveToHistory();
       });
     } on UnsupportedError {
       setState(() {
@@ -114,12 +124,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 Icons.more_vert,
                 color: Colors.white,
               ),
-              onSelected: (e) {},
+              onSelected: (e) {
+                push(context, Routes.calchistorypage);
+              },
               padding: EdgeInsets.zero,
               itemBuilder: (context) {
                 return editChoice.map((String choice) {
                   return PopupMenuItem<String>(
                     value: choice,
+                    onTap: () {},
                     height: kMinInteractiveDimension - 10,
                     child: Text(
                       choice,
@@ -329,6 +342,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               lastEntry = "1 ${Operators.div} $_temp";
               lastOutput = screenController.text;
               lastError = "-";
+              saveToHistory();
             });
           } on UnsupportedError {
             setState(() {
@@ -348,6 +362,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               lastEntry = "$_temp²";
               lastOutput = screenController.text;
               lastError = "-";
+              saveToHistory();
             });
           } on UnsupportedError {
             setState(() {
@@ -367,6 +382,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               lastEntry = "$_temp%";
               lastOutput = screenController.text;
               lastError = "-";
+              saveToHistory();
             });
           } on UnsupportedError {
             setState(() {
@@ -388,6 +404,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               lastEntry = "√$_temp";
               lastOutput = screenController.text;
               lastError = "-";
+              saveToHistory();
             });
           } on UnsupportedError {
             setState(() {

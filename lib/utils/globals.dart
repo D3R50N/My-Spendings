@@ -10,10 +10,12 @@ late Function() reload;
 
 late SharedPreferences prefs;
 late Box<SpendingsModel> spendingsBox;
+late Box<List<String>> calcHistoriesBox;
 SpendingsModel newmodel = SpendingsModel(0);
 
 class Boxes {
   static String spendings = "spendings";
+  static String calcHistories = "calcHistories";
 }
 
 class Settings {
@@ -30,25 +32,28 @@ class Settings {
   static Future<void> settheme(int theme) async {
     await prefs.setInt("currentheme", theme);
   }
-  static Future<void> setsave(bool b) async{
+
+  static Future<void> setsave(bool b) async {
     await prefs.setBool("autosave", b);
   }
 
-  static Future<void> setscroll(bool b) async{
+  static Future<void> setscroll(bool b) async {
     await prefs.setBool("autoscroll", b);
   }
 
-  static Future<void> setconfirm(bool b) async{
+  static Future<void> setconfirm(bool b) async {
     await prefs.setBool("alwaysconfirm", b);
   }
+
   static Future<void> setlock(bool b) async {
     await prefs.setBool("lock", b);
   }
 
-  static Future<void> setname(String n) async{
+  static Future<void> setname(String n) async {
     await prefs.setString("username", n);
   }
-   static Future<void> setlockcode(String n) async {
+
+  static Future<void> setlockcode(String n) async {
     await prefs.setString("lockcode", n);
   }
 }

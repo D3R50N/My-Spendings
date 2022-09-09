@@ -4,14 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/historymodel.dart';
 import 'package:flutter_application_1/models/spendingsmodel.dart';
 import 'package:flutter_application_1/routes.dart';
-import 'package:flutter_application_1/routes/calculator.dart';
-import 'package:flutter_application_1/routes/converter.dart';
-import 'package:flutter_application_1/routes/editplan.dart';
-import 'package:flutter_application_1/routes/home.dart';
-import 'package:flutter_application_1/routes/lockcode.dart';
-import 'package:flutter_application_1/routes/newplan.dart';
-import 'package:flutter_application_1/routes/settings.dart';
-import 'package:flutter_application_1/routes/startingpage.dart';
+
 import 'package:flutter_application_1/utils/globals.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,6 +17,7 @@ Future<void> main() async {
   Hive.registerAdapter(SpendingsModelAdapter());
   Hive.registerAdapter(HistoryModelAdapter());
   spendingsBox = await Hive.openBox<SpendingsModel>(Boxes.spendings);
+  calcHistoriesBox = await Hive.openBox<List<String>>(Boxes.calcHistories);
   prefs = await SharedPreferences.getInstance();
   runApp(const App());
 }
@@ -44,17 +38,7 @@ class App extends StatelessWidget {
           : prefs.getBool(Settings.firstTime) ?? true
               ? Routes.startingpage
               : Routes.home,
-      routes: {
-        Routes.home: (context) => Home(),
-        Routes.startingpage: (context) => StartingPage(),
-        Routes.newplanif: ((context) => NewPlanif()),
-        Routes.editplanif: ((context) => EditPlanif()),
-        Routes.settingspage: ((context) => SettingsPage()),
-        Routes.lockpage: ((context) => LockCodePage()),
-        Routes.calcpage: ((context) => CalculatorPage()),
-        Routes.converterpage: ((context) => ConverterPage()),
-        
-      },
+      routes: Routes.all,
     );
   }
 }
