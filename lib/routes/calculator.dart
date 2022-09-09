@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   String lastError = "-", lastEntry = "-", lastOutput = "-";
   bool hasPressOperator = true;
+
+  int equalCounter = 0;
+
   @override
   void initState() {
     SpendingsModel.all().then((value) {
@@ -45,6 +49,54 @@ class _CalculatorPageState extends State<CalculatorPage> {
       }
     });
     super.initState();
+  }
+
+  String calc(String first, String operator, String last) {
+    if (operator == Operators.div) {
+      return (first.toDouble() / last.toDouble())
+          .toString()
+          .toIntOrDouble()
+          .toString();
+    } else if (operator == Operators.mult) {
+      return (first.toDouble() * last.toDouble())
+          .toString()
+          .toIntOrDouble()
+          .toString();
+    } else if (operator == Operators.minus) {
+      return (first.toDouble() - last.toDouble())
+          .toString()
+          .toIntOrDouble()
+          .toString();
+    } else if (operator == Operators.plus) {
+      return (first.toDouble() + last.toDouble())
+          .toString()
+          .toIntOrDouble()
+          .toString();
+    }
+    return "Oups...";
+  }
+
+  void getResult() {
+    if (equalCounter <= 1) lastTerm = screenController.text;
+    try {
+      screenController.text = calc(firstTerm, lastoperator, lastTerm);
+      hasPressOperator = false;
+
+      setState(() {
+        lastEntry = "$firstTerm  $lastoperator  $lastTerm";
+        lastOutput = screenController.text;
+        lastError = "-";
+      });
+    } on UnsupportedError {
+      setState(() {
+        lastError = "Opération impossible";
+      });
+    }
+
+    // lastoperator = "";
+    // firstTerm = "";
+    // lastTerm = "";
+    // hasPressOperator = true;
   }
 
   @override
@@ -175,7 +227,10 @@ class _CalculatorPageState extends State<CalculatorPage> {
                           ),
                           digit(
                             ',',
-                            onPressed: () {},
+                            onPressed: () {
+                              screenController.text =
+                                  screenController.text + ".";
+                            },
                             isDigit: false,
                           ),
                           digit(
@@ -185,56 +240,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
                           digit(
                             '=',
                             onPressed: () {
-                              lastTerm = screenController.text;
-
-                              try {
-                                if (lastoperator == Operators.div) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() /
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.mult) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() *
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.minus) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() -
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                } else if (lastoperator == Operators.plus) {
-                                  screenController.text =
-                                      (firstTerm.toDouble() +
-                                              lastTerm.toDouble())
-                                          .toString()
-                                          .toIntOrDouble()
-                                          .toString();
-                                }
-
-                                setState(() {
-                                  lastEntry =
-                                      firstTerm + lastoperator + lastTerm;
-
-                                  lastOutput = screenController.text;
-                                  lastError = "-";
-                                });
-                              } on UnsupportedError {
-                                setState(() {
-                                  lastError = "Opération impossible";
-                                });
-                              }
-
-                              // lastoperator = "";
-                              // firstTerm = "";
-                              // lastTerm = "";
-                              hasPressOperator = true;
+                              equalCounter++;
+                              getResult();
                             },
                             isDigit: false,
                           ),
@@ -305,11 +312,89 @@ class _CalculatorPageState extends State<CalculatorPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        toolBtn("-|+", onPressed: () {}),
-        toolBtn("⅟ⅹ", onPressed: () {}),
-        toolBtn("x²", onPressed: () {}),
-        toolBtn("%", onPressed: () {}),
-        toolBtn("√", onPressed: () {}),
+        toolBtn("±", onPressed: () {
+          screenController.text = screenController.text.startsWith("-")
+              ? screenController.text.replaceFirst("-", "")
+              : screenController.text = "-" + screenController.text;
+        }),
+        toolBtn("⅟ⅹ", onPressed: () {
+          try {
+            var _temp = screenController.text;
+
+            screenController.text =
+                calc("1", Operators.div, screenController.text);
+
+            setState(() {
+              lastoperator = "⅟";
+              lastEntry = "1 ${Operators.div} $_temp";
+              lastOutput = screenController.text;
+              lastError = "-";
+            });
+          } on UnsupportedError {
+            setState(() {
+              lastError = "Division par zéro";
+            });
+          }
+        }),
+        toolBtn("x²", onPressed: () {
+          try {
+            var _temp = screenController.text;
+
+            screenController.text = calc(
+                screenController.text, Operators.mult, screenController.text);
+
+            setState(() {
+              lastoperator = "²";
+              lastEntry = "$_temp²";
+              lastOutput = screenController.text;
+              lastError = "-";
+            });
+          } on UnsupportedError {
+            setState(() {
+              lastError = "Tend vers l'infini";
+            });
+          }
+        }),
+        toolBtn("%", onPressed: () {
+          try {
+            var _temp = screenController.text;
+
+            screenController.text =
+                calc(screenController.text, Operators.div, "100");
+
+            setState(() {
+              lastoperator = "%";
+              lastEntry = "$_temp%";
+              lastOutput = screenController.text;
+              lastError = "-";
+            });
+          } on UnsupportedError {
+            setState(() {
+              lastError = "Tend vers l'infini négatif";
+            });
+          }
+        }),
+        toolBtn("√", onPressed: () {
+          try {
+            var _temp = screenController.text;
+
+            if (sqrt(screenController.text.toIntOrDouble()).isNaN) {
+              throw UnsupportedError("");
+            }
+            screenController.text =
+                sqrt(screenController.text.toIntOrDouble()).toString();
+            setState(() {
+              lastoperator = "√";
+              lastEntry = "√$_temp";
+              lastOutput = screenController.text;
+              lastError = "-";
+            });
+          } on UnsupportedError {
+            setState(() {
+              lastError = "Nombre négatif ou zéro";
+            });
+          }
+        }),
       ],
     );
   }
@@ -502,13 +587,15 @@ class _CalculatorPageState extends State<CalculatorPage> {
           ),
           onLongPress: onLongPress,
           onPressed: () {
+            if (number != "=") equalCounter = 0;
             if (isOperator) {
+              if (hasPressOperator) getResult();
               setState(() {
                 lastoperator = number;
-                hasPressOperator = true;
+                if (!hasPressOperator) hasPressOperator = true;
               });
             } else {
-              if (hasPressOperator) {
+              if (hasPressOperator || equalCounter > 0) {
                 firstTerm = screenController.text;
               }
             }
