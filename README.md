@@ -39,7 +39,7 @@ Write about 1-2 paragraphs describing the purpose of your bot.
 
 ## 🎥 Demo / Working <a name = "demo"></a>
 
-![Working](screenshots/1.png)
+![Working](screenshots/screen.png)
 
 ## 💭 How it works <a name = "working"></a>
 
